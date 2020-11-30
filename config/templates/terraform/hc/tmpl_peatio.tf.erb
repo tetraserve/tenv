@@ -58,11 +58,6 @@ resource "hcloud_server_network" "peatio-network-<%= @config['mode'] %>" {
     "peatio-#{@config['mode']}") %>
 
 <%= RendererHelperHc::cloudflare_external(
-    "kibana-peatio-#{@config['mode']}-hc",
-    "kibana.peatio-#{@config['mode']}.hc",
-    "peatio-#{@config['mode']}") %>
-
-<%= RendererHelperHc::cloudflare_external(
     "www-peatio-#{@config['mode']}-hc",
     "www.peatio-#{@config['mode']}.hc",
     "peatio-#{@config['mode']}") %>
@@ -70,19 +65,4 @@ resource "hcloud_server_network" "peatio-network-<%= @config['mode'] %>" {
 <%= RendererHelperHc::cloudflare_external(
     "pma-peatio-#{@config['mode']}-hc",
     "pma.peatio-#{@config['mode']}.hc",
-    "peatio-#{@config['mode']}") %>
-
-<%= RendererHelperHc::cloudflare_external(
-    "superset-peatio-#{@config['mode']}-hc",
-    "superset.peatio-#{@config['mode']}.hc",
-    "peatio-#{@config['mode']}") %>
-
-<%= RendererHelperHc::cloudflare_external(
-    "swagger-barong-peatio-#{@config['mode']}-hc",
-    "swagger-barong.peatio-#{@config['mode']}.hc",
-    "peatio-#{@config['mode']}") %>
-    
-<%= RendererHelperHc::cloudflare_external(
-    "swagger-peatio-#{@config['mode']}-hc",
-    "swagger.peatio-#{@config['mode']}.hc",
     "peatio-#{@config['mode']}") %>

@@ -12,7 +12,7 @@ module Opendax
       host = `hostname`.strip
 
       # TODO: for special cases
-      if (host.include?('coinh')) then
+      if (host.include?('something special..')) then
         host = 'special-prd'
       end
 
@@ -31,11 +31,6 @@ module Opendax
       elsif(host.include?('-stg3')) then
         if (conf['app'] != 'stg3') then
           puts "ERROR: Your conf[app] is not stg3"
-          return false
-        end
-      elsif(host.include?('mailsv')) then # mailsv belongs to base
-        if (conf['app'] != 'base') then
-          puts "ERROR: Your conf[app] is not base"
           return false
         end
       elsif(host.include?('-prd')) then
