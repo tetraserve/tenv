@@ -1,0 +1,88 @@
+################ Peatio
+
+######## Instance
+
+resource "hcloud_server" "peatio-<%= @config['mode'] %>" {
+  name = "peatio-<%= @config['mode'] %>"
+  image = var.image
+  server_type = "<%= @config['hc']['peatio_machine_type'] %>"
+  #location = var.region
+  datacenter = var.zone
+  ssh_keys = ["${data.hcloud_ssh_key.opendax.id}"]
+  <%= RendererHelperHc::provisioner_remote_exec(
+    'root', RendererHelperHc::root_user_init("peatio-#{@config['mode']}-hc")
+  ) %>
+  <%= RendererHelperHc::provisioner_file(
+    'deploy', 'var.ssh_private_key', '"/home/deploy/.ssh/id_rsa"'
+  ) %>
+  <%= RendererHelperHc::provisioner_remote_exec(
+    'deploy', RendererHelperHc::deploy_user_init
+  ) %>
+  <%= RendererHelperHc::provisioner_local_exec(
+    '"rm -rf /tmp/upload && mkdir -p /tmp/upload && rsync -rv --copy-links --safe-links ../../../ /tmp/upload/"'
+  ) %>
+  <%= RendererHelperHc::provisioner_file(
+    'deploy', '"/tmp/upload/"', '"/home/deploy/opendax"'
+  ) %>
+  <%= RendererHelperHc::provisioner_remote_exec(
+    'deploy', 'script = "../../../bin/install_peatio.sh"'
+  ) %>
+  <%= RendererHelperHc::provisioner_remote_exec(
+    'deploy', 'script = "../../../bin/start_peatio.sh"'
+  ) %>
+
+}
+
+######## Network
+
+resource "hcloud_server_network" "peatio-network-<%= @config['mode'] %>" {
+  server_id = hcloud_server.peatio-<%= @config['mode'] %>.id
+  network_id = data.terraform_remote_state.network.outputs.opendax_network.id
+  ip = "<%= @config['hc']['peatio_machine_ip'] %>"
+}
+
+######## Cloudflare
+
+#### Internal
+
+<%= RendererHelperHc::cloudflare_internal(
+    "peatio-#{@config['mode']}-internal-hc",
+    "peatio-#{@config['mode']}.internal.hc",
+    "#{@config['hc']['peatio_machine_ip']}") %>
+
+#### External
+
+<%= RendererHelperHc::cloudflare_external(
+    "peatio-#{@config['mode']}-hc",
+    "peatio-#{@config['mode']}.hc",
+    "peatio-#{@config['mode']}") %>
+
+<%= RendererHelperHc::cloudflare_external(
+    "kibana-peatio-#{@config['mode']}-hc",
+    "kibana.peatio-#{@config['mode']}.hc",
+    "peatio-#{@config['mode']}") %>
+
+<%= RendererHelperHc::cloudflare_external(
+    "www-peatio-#{@config['mode']}-hc",
+    "www.peatio-#{@config['mode']}.hc",
+    "peatio-#{@config['mode']}") %>
+
+<%= RendererHelperHc::cloudflare_external(
+    "pma-peatio-#{@config['mode']}-hc",
+    "pma.peatio-#{@config['mode']}.hc",
+    "peatio-#{@config['mode']}") %>
+
+<%= RendererHelperHc::cloudflare_external(
+    "superset-peatio-#{@config['mode']}-hc",
+    "superset.peatio-#{@config['mode']}.hc",
+    "peatio-#{@config['mode']}") %>
+
+<%= RendererHelperHc::cloudflare_external(
+    "swagger-barong-peatio-#{@config['mode']}-hc",
+    "swagger-barong.peatio-#{@config['mode']}.hc",
+    "peatio-#{@config['mode']}") %>
+    
+<%= RendererHelperHc::cloudflare_external(
+    "swagger-peatio-#{@config['mode']}-hc",
+    "swagger.peatio-#{@config['mode']}.hc",
+    "peatio-#{@config['mode']}") %>

@@ -1,0 +1,32 @@
+delete_tf_files: true
+common:
+  ssh_key: "../../../deploy_secrets/ssh_key.txt"
+  ssh_key_pub: "../../../deploy_secrets/ssh_key.pub.txt"
+gcs:
+  terraform_bucket: "global-unique-key-opendax-terraform"
+  credentials: "../../../deploy_secrets/gcp.json"
+gcp:
+  credentials: "../../../deploy_secrets/gcp.json"
+  project: "opendax"
+  region: "asia-northeast1"
+  zone: "asia-northeast1-a"
+  image: "ubuntu-os-cloud/ubuntu-minimal-1804-lts"
+  mailsv_machine_type: n1-standard-1
+  mailsv_disk_size: 30
+hcloud:
+  token: "../../../deploy_secrets/hcloud_token.txt"
+  ssh_fingerprint: "../../../deploy_secrets/hcloud_ssh_fingerprint.txt"
+  region: "fsn1"
+  zone: "fsn1-dc1"
+  image: "ubuntu-18.04"
+  network: "10.0.0.0/8"
+  subnet: "10.0.10.0/24"
+  mailsv_machine_type: cx11
+  mailsv_machine_ip: '10.0.10.102'
+  host_password: "../../../deploy_secrets/host_password.txt"
+cloudflare:
+  token: "../../../deploy_secrets/cloudflare_token.txt"
+sakuracloud:
+  token: "../../../deploy_secrets/sakuracloud_token.txt"
+  secret: "../../../deploy_secrets/sakuracloud_secret.txt"
+  zone: "is1b"

@@ -1,0 +1,23 @@
+################ Variables for all
+
+variable "ssh_public_key" {
+  default =  "<%= @deploy['common']['ssh_key_pub'] %>"
+}
+variable "ssh_private_key" {
+  default =  "<%= @deploy['common']['ssh_key'] %>"
+}
+variable "cloudflare_token" {
+  default =  "<%= @deploy['cloudflare']['token'] %>"
+}
+variable "cloudflare_zone_id" {
+  default =  "<%= @config['cloudflare']['zone_id'] %>" # @config[][]
+}
+variable "sakuracloud_token" {
+  default =  "<%= @deploy['sakuracloud']['token'] %>"
+}
+variable "sakuracloud_secret" {
+  default =  "<%= @deploy['sakuracloud']['secret'] %>"
+}
+variable "sakuracloud_zone" {
+  default =  "<%= @deploy['sakuracloud']['zone'] %>"
+}

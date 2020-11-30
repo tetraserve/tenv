@@ -1,0 +1,5 @@
+<% if @config['gcp']['tf_exec']['logsv'] %>
+<%= ERB.new(File.read(
+    'config/templates/terraform/gcp/tmpl_logsv.tf.erb'
+      ), trim_mode: '-').result(binding) %>
+<% end %>

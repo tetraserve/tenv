@@ -1,0 +1,58 @@
+################ Mailsv
+
+######## Instance
+
+resource "hcloud_server" "mailsv" {
+  name = "mailsv"
+  image = var.image
+  server_type = var.mailsv_machine_type
+  #location = var.region
+  datacenter = var.zone
+  ssh_keys = ["${data.hcloud_ssh_key.opendax.id}"]
+  <%= RendererHelperHc::provisioner_remote_exec(
+    'root', RendererHelperHc::root_user_init("mailsv-hc")
+  ) %>
+  <%= RendererHelperHc::provisioner_file(
+    'deploy', 'var.ssh_private_key', '"/home/deploy/.ssh/id_rsa"'
+  ) %>
+  <%= RendererHelperHc::provisioner_remote_exec(
+    'deploy', RendererHelperHc::deploy_user_init
+  ) %>
+  <%= RendererHelperHc::provisioner_local_exec(
+    '"rm -rf /tmp/upload && mkdir -p /tmp/upload && rsync -rv --copy-links --safe-links ../../../ /tmp/upload/"'
+  ) %>
+  <%= RendererHelperHc::provisioner_file(
+    'deploy', '"/tmp/upload/"', '"/home/deploy/opendax"'
+  ) %>
+  <%= RendererHelperHc::provisioner_remote_exec(
+    'deploy', 'script = "../../../bin/install_mailsv.sh"'
+  ) %>
+  <%= RendererHelperHc::provisioner_remote_exec(
+    'deploy', 'script = "../../../bin/start_mailsv.sh"'
+  ) %>
+
+}
+
+######## Network
+
+resource "hcloud_server_network" "mailsv-network" {
+  server_id = hcloud_server.mailsv.id
+  network_id =  hcloud_network.opendax-1.id
+  ip = "<%= @deploy['hcloud']['mailsv_machine_ip'] %>"
+}
+
+######## Cloudflare
+
+#### Internal
+
+<%= RendererHelperHc::cloudflare_internal(
+    "mailsv-internal-hc",
+    "mailsv.internal.hc",
+    "#{@deploy['hcloud']['mailsv_machine_ip']}") %>
+
+#### External
+
+<%= RendererHelperHc::cloudflare_external(
+    "mailsv-hc",
+    "mailsv.hc",
+    "mailsv") %>

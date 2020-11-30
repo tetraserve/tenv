@@ -1,0 +1,23 @@
+################ Variables for Hetzner Cloud
+
+variable "hcloud_token" {
+  default = "<%= @deploy['hcloud']['token'] %>"
+}
+variable "hcloud_ssh_fingerprint" {
+  default =  "<%= @deploy['hcloud']['ssh_fingerprint'] %>"
+}
+variable "region" {
+  default =  "<%= @deploy['hcloud']['region'] %>"
+}
+variable "zone" {
+  default =  "<%= @deploy['hcloud']['zone'] %>"
+}
+variable "image" {
+  default =  "<%= @deploy['hcloud']['image'] %>"
+}
+variable "mailsv_machine_type" {
+  default =  "<%= @deploy['hcloud']['mailsv_machine_type'] %>"
+}
+variable "host_password" {
+  default =  "<%= @deploy['hcloud']['host_password'] %>"
+}

@@ -1,0 +1,95 @@
+################ Mailsv
+
+######## Output
+
+output "opendax_mailsv_external_ip" {
+  value = "${google_compute_address.mailsv.address}"
+}
+output "opendax_mailsv_internal_ip" {
+  value = "${google_compute_instance.mailsv.network_interface[0].network_ip}"
+}
+
+######## Instance
+
+resource "google_compute_instance" "mailsv" {
+  name         = "mailsv"
+  machine_type = var.mailsv_machine_type
+  zone         = var.zone
+  allow_stopping_for_update = true
+  boot_disk {
+    initialize_params {
+      image = var.image
+      type  = "pd-ssd"
+      size  = var.mailsv_disk_size
+    }
+  }
+  network_interface {
+    network = google_compute_network.opendax.name
+    access_config {
+      nat_ip = google_compute_address.mailsv.address
+    }
+  }
+  service_account {
+    scopes = ["cloud-platform"] # full access
+  }
+  tags = ["allow-webhook"]
+  metadata = {
+    sshKeys = "deploy:${file(var.ssh_public_key)}\nroot:${file(var.ssh_public_key)}"
+  }
+  # only root user can execute this.(sudo does not work.)
+  <%= RendererHelperGcp::provisioner_remote_exec(
+    'root', 
+    'inline = ['+
+      "\"hostname mailsv-gcp\", "+
+      "\"cp -f /etc/hostname /etc/hostname.bak\", "+
+      "\"echo 'mailsv-gcp' > /etc/hostname\""+
+    ']'
+  ) %>
+  <%= RendererHelperGcp::provisioner_file(
+    'deploy', 'var.ssh_private_key', '"/home/deploy/.ssh/id_rsa"'
+  ) %>
+  <%= RendererHelperGcp::provisioner_remote_exec(
+    'deploy', 
+    'inline = ['+
+      '"chmod 600 /home/deploy/.ssh/id_rsa", '+
+      '"mkdir -p /home/deploy/opendax"'+
+    ']'
+  ) %>
+  <% RendererHelperGcp::provisioner_local_exec(
+    '"rm -rf /tmp/upload && mkdir -p /tmp/upload && rsync -rv --copy-links --safe-links ../../../ /tmp/upload/"'
+  ) %>
+  <% RendererHelperGcp::provisioner_file(
+    'deploy', '"/tmp/upload/"', '"/home/deploy/opendax"'
+  ) %>
+  <% RendererHelperGcp::provisioner_remote_exec(
+    'deploy', 'script = "../../../bin/install_mailsv.sh"'
+  ) %>
+  <% RendererHelperGcp::provisioner_remote_exec(
+    'deploy', 'script = "../../../bin/start_mailsv.sh"'
+  ) %>
+
+}
+
+######## IP
+
+resource "google_compute_address" "mailsv" {
+  name = "mailsv-ip"
+}
+
+######## Cloudflare
+
+#### Internal
+
+<%= RendererHelper::cloudflare_internal(
+    "mailsv-internal-gcp",
+    "mailsv.internal.gcp",
+    "mailsv") %>
+
+#### External
+
+<%= RendererHelper::cloudflare_external(
+    "mailsv-gcp",
+    "mailsv.gcp",
+    "mailsv") %>
+
+################################################################################

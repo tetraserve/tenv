@@ -1,0 +1,82 @@
+logLevel = "INFO"
+defaultEntryPoints = [<%= '"https",' if @config['ssl']['enabled'] %>"http"]
+
+[api]
+
+[entryPoints]
+  [entryPoints.http]
+  address = ":80"
+<% if @config['ssl']['enabled'] -%>
+    [entryPoints.http.redirect]
+    entryPoint = "https"
+  [entryPoints.https]
+  address = ":443"
+  [entryPoints.https.tls]
+<% end -%>
+
+######## Add to run UI app outside dockers
+
+# Logs are written to stdout
+# (Use docker logs -f to see)
+# Defining section names (with empty definition inside)
+# are required to enable
+
+#[traefikLog]
+
+#[accessLog]
+
+# File section
+# backends and frontends are placed in file section
+
+[file]
+
+[backends]
+  [backends.backend1]
+    [backends.backend1.servers]
+      [backends.backend1.servers.server0]
+        # Redirect to host os's ip or localhost
+        # Win or Mac docker localhost:
+        #url = "http://host.docker.internal:3001"
+        # Unix standard docker config:
+        # (Ruby or npm running on host os listening on 0.0.0.0:3001)
+        url = "http://172.17.0.1:3001"
+        weight = 1
+  [backends.backend2]
+    [backends.backend2.servers]
+      [backends.backend2.servers.server0]
+        url = "http://172.17.0.1:3002"
+        weight = 1
+
+[frontends]
+  [frontends.frontend1]
+    backend = "backend1"
+    passHostHeader = true
+    [frontends.frontend1.routes.host]
+      rule = "PathPrefix:/pconsole;Host:<%= @config['app']['subdomain'] %>.<%= @config['app']['domain'] %>"
+  [frontends.frontend2]
+    backend = "backend2"
+    passHostHeader = true
+    [frontends.frontend2.routes.host]
+      rule = "Host:pqhack3.<%= @config['app']['domain'] %>"
+
+########
+
+[retry]
+
+[docker]
+endpoint = "unix:///var/run/docker.sock"
+domain = "local"
+watch = true
+exposedbydefault = false
+
+<% if @config['ssl']['enabled'] -%>
+[acme]
+email = "<%= @config['ssl']['email'] %>"
+storage = "acme.json"
+entryPoint = "https"
+OnHostRule = true
+usebindportip = true
+
+[acme.httpChallenge]
+entryPoint = "http"
+<% end -%>

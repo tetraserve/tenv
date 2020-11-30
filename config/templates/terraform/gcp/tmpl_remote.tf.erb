@@ -1,0 +1,10 @@
+######## Remote state
+
+data "terraform_remote_state" "network" {
+  backend = "gcs"
+  config = {
+    credentials = "<%= @deploy['gcs']['credentials'] %>"
+    bucket  = "<%= @deploy['gcs']['terraform_bucket'] %>"
+    prefix = "gcp/base"
+  }
+}

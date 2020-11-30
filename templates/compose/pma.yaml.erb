@@ -1,0 +1,17 @@
+version: '3.6'
+
+services:
+  pma:
+    restart: always
+    image: phpmyadmin/phpmyadmin:4.9.4
+    environment:
+      PMA_HOST: db
+      PMA_USER: root
+      PMA_PASSWORD: changeme
+      PHP_UPLOAD_MAX_FILESIZE: 1G
+      PHP_MAX_INPUT_VARS: 1G
+    labels:
+      traefik.enable: true
+      traefik.frontend.rule: "Host:pma.<%= @config['app']['domain'] %>"
+      traefik.frontend.auth.basic: '<%= @config['pma']['basic_auth'] %>'
+      traefik.port: 80

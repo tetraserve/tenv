@@ -1,0 +1,48 @@
+version: '3.6'
+
+services:
+  mailsv:
+    image: "<%= @config['images']['mailsv'] %>"
+    hostname: "<%= @config['mailsv']['hostname'] %>"
+    domainname: "<%= @config['mailsv']['domainname'] %>"
+    ports:
+      - "25:25"
+      - "143:143"
+      - "587:587"
+    volumes:
+      - maildata:/var/mail
+      - mailstate:/var/mail-state
+      - maillogs:/var/log/mail
+      #- mailconfig:/tmp/docker-mailserver/
+      - ../config/mailsv/:/tmp/docker-mailserver/
+      - /etc/letsencrypt:/etc/letsencrypt:ro
+    environment:
+      - ENABLE_SPAMASSASSIN=0
+      - ENABLE_CLAMAV=0
+      - ENABLE_FAIL2BAN=0
+      - ENABLE_POSTGREY=0
+      - SSL_TYPE=letsencrypt
+      - ONE_DIR=1
+      - DMS_DEBUG=0
+      - TLS_LEVEL=intermediate
+    cap_add:
+      - NET_ADMIN
+      - SYS_PTRACE
+    restart: always
+
+volumes:
+  maildata:
+    driver_opts:
+      type: none
+      device: "<%= @config['app']['docker_volumes_path'] %>/maildata"
+      o: bind
+  mailstate:
+    driver_opts:
+      type: none
+      device: "<%= @config['app']['docker_volumes_path'] %>/mailstate"
+      o: bind
+  maillogs:
+    driver_opts:
+      type: none
+      device: "<%= @config['app']['docker_volumes_path'] %>/maillogs"
+      o: bind

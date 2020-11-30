@@ -1,0 +1,23 @@
+- key:               eth-<%= @config['parity']['network'] %>
+  name:              Ethereum <%= @config['parity']['network'].capitalize %>
+  client:            parity
+  server:            http://<%= @config['parity']['address'] %>:<%= @config['parity']['rpcport'] %>
+  height:            <%= @config['parity']['height'] %>
+  min_confirmations: 6
+  explorer:
+    address:         <%= @config['parity']['explorer']['address'] %>
+    transaction:     <%= @config['parity']['explorer']['transaction'] %>
+  status:            active
+
+<% if @config['bitcoind']['enabled'] %>
+- key:               btc-<%= @config['bitcoind']['network'] %>
+  name:              Bitcoin <%= @config['bitcoind']['network'].capitalize %>
+  client:            bitcoin
+  server:            http://<%= @config['bitcoind']['rpcuser'] %>:<%= @config['bitcoind']['rpcpassword'] %>@<%= @config['bitcoind']['address'] %>:<%= @config['bitcoind']['rpcport'] %>
+  height:            <%= @config['bitcoind']['height'] %>
+  min_confirmations: 6
+  explorer:
+    address:         <%= @config['bitcoind']['explorer']['address'] %>
+    transaction:     <%= @config['bitcoind']['explorer']['transaction'] %>
+  status:            active
+<% end %>

@@ -1,0 +1,180 @@
+# DO NOT EDIT THIS SAMPLE FILE !
+# DO NOT WRITE YOUR SECRET INFO AND CHECK-IN!
+################################################################################
+# config/app.yml.d/sample.app.yml
+#
+# This is a SAMPLE of *.app.yml
+# You have to copy this to local.app.yml and edit for yourself.
+# and bundle exec rake r:c[local]
+################################################################################
+mode: "sample"
+app:
+  name: "OpenDAX" # DO NOT CHANGE LATER, because used in docker-volume names
+  domain: "app.local"
+  subdomain: "www"
+  adminPass: "0lDHd9ufs9t@"
+  testUserPass: "Am8icnzEI3d!"
+  docker_volumes_path: "/home/__USER__/docker_volumes" # __USER__ will be replaced properly
+render_protect: false
+cloudflare:
+  zone_id: none
+ssl:
+  enabled: false    # Make sure to enable during deployment
+  email: "support@example.com"
+images:
+  peatio: yuknak/peatio:2.3.47
+  barong: yuknak/barong:2.3.45
+  frontend: yuknak/baseapp:2.3.26 # Check on quay.io/openware/baseapp for latest tags
+  tower: quay.io/openware/tower:2.3.137
+  postmaster: yuknak/postmaster:2.3.5
+  mailsv: tvial/docker-mailserver:release-v7.0.0
+arke_proxy:
+  enabled: false
+vendor:
+  frontend: git@github.com:openware/baseapp.git
+vault:
+  mode: development
+  token: changeme
+database:
+  host: db
+  port: 3306
+  user: root
+  password: changeme
+storage:
+  provider: "Google"
+  bucketName: "opendax-barong-docs-bucket"
+  region: fra1
+  endpoint: https://fra1.digitaloceanspaces.com
+  accessKey: "changeme"
+  secretKey: "changeme"
+  signatureVersion: "2"
+twilio:
+  phone_number: "+15005550000"
+  account_sid: "changeme"
+  auth_token: "changeme"
+recaptcha:
+  type: "none"
+  siteKey: "changeme"
+  secretKey: "changeme"
+smtp:
+  host: smtp.sendgrid.net
+  port: 2525
+  user: apikey
+  password: changeme
+  sender_email: noreply@postmaster.com
+  sender_name: Postmaster
+wallets:
+  eth:
+    - kind: deposit
+      address: "changeme"
+      max_balance: 0.0
+      secret: changeme
+    - kind: hot
+      address: "changeme"
+      max_balance: 100.0
+      secret: changeme
+    - kind: warm
+      address: "changeme"
+      max_balance: 1000.0
+      secret: changeme
+  btc:
+    - kind: deposit
+      address: "changeme"
+      max_balance: 0.0
+    - kind: hot
+      address: "changeme"
+      max_balance: 100.0
+    - kind: warm
+      address: "changeme"
+      max_balance: 1000.0
+parity:
+  network: testnet
+  address: parity
+  rpcport: 8545
+  port: 30303
+  rpc_host_ip: 10.0.10.13
+  height: 18373826
+  explorer:
+    address: https://kovan.etherscan.io/address/#{address}
+    transaction: https://kovan.etherscan.io/tx/#{txid}
+bitcoind:
+  enabled: false
+  dnsseed: 1
+  upnp: 0
+  rpcallowip: "10.0.0.0/8"
+  rpcuser: admin
+  rpcpassword: changeme
+  address: bitcoind
+  network: testnet
+  rpcport: 18332
+  port: 18333
+  rpc_host_ip: 10.0.10.13
+  height: 1723074
+  explorer:
+    address: https://live.blockcypher.com/btc-testnet/address/#{address}/
+    transaction: https://live.blockcypher.com/btc-testnet/tx/#{txid}/
+litecoind:
+  rpcuser: admin
+  rpcpassword: changeme
+  address: litecoind
+  network: testnet
+  rpcport: 19332
+  port: 19335
+ardor:
+  rpcpassword: changeme
+  network: testnet
+  address: ardor
+pma:
+  basic_auth: admin:$$apr1$$IQD9ABAW$$WB0N1Dh4yZ91As5QaYXn8.
+kibana:
+  basic_auth: admin:$$apr1$$IQD9ABAW$$WB0N1Dh4yZ91As5QaYXn8.  
+mailsv:
+  domainname: domain.com
+  hostname: mail
+  emails:
+    - address: admin@domain.com
+      password: xx
+  aliases:
+    - address: user@domain.com
+      to: "user@another.domain.com"
+nginx:
+  hostport: 18080
+logsv:
+  host_name: "logsv.app.local"
+  basic_auth: admin:$$apr1$$IQD9ABAW$$WB0N1Dh4yZ91As5QaYXn8.    
+logagent:
+  syslog_host: 10.0.10.14
+  retry_count: 100
+slack:
+  webhook_url: https://hooks.slack.com/services/xxx/xxx/xxx
+monit:
+  disk_threshold: "85%"
+gcp:
+  tf_exec:
+    network: true
+    mailsv: true
+    cryptosv: true
+    logsv: true
+    peatio: true
+    remote: true
+  peatio_machine_type: n1-standard-2
+  peatio_disk_size: 30
+  logsv_machine_type: n1-standard-2
+  logsv_disk_size: 30
+  cryptosv_machine_type: n1-standard-2
+  cryptosv_disk_size: 30
+hc:
+  tf_exec:
+    network: true
+    volumes: true
+    mailsv: true
+    cryptosv: true
+    logsv: true
+    peatio: true
+    remote: true
+  peatio_machine_type: cx21
+  peatio_machine_ip: '10.1.1.2'
+  cryptosv_machine_type: cx21
+  cryptosv_machine_ip: '10.1.1.3'
+  logsv_machine_type: cx21
+  logsv_machine_ip: '10.1.1.4'

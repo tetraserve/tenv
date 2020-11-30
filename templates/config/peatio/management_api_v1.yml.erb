@@ -1,0 +1,83 @@
+keychain:
+  applogic:
+    algorithm: RS256
+    value: <%= @applogic_public_key %>
+
+scopes:
+  read_deposits:
+    mandatory_signers:
+      - applogic
+    permitted_signers:
+      - applogic
+  write_deposits:
+    mandatory_signers:
+      - applogic
+    permitted_signers:
+      - applogic
+  read_withdraws:
+    mandatory_signers:
+      - applogic
+    permitted_signers:
+      - applogic
+  write_withdraws:
+    mandatory_signers:
+      - applogic
+    permitted_signers:
+      - applogic
+  read_operations:
+    mandatory_signers:
+      - applogic
+    permitted_signers:
+      - applogic
+  write_operations:
+    mandatory_signers:
+      - applogic
+    permitted_signers:
+      - applogic
+  read_transfers:
+    mandatory_signers:
+      - applogic
+    permitted_signers:
+      - applogic
+  write_transfers:
+    mandatory_signers:
+      - applogic
+    permitted_signers:
+      - applogic
+  read_members:
+    mandatory_signers:
+      - applogic
+    permitted_signers:
+      - applogic
+  write_members:
+    mandatory_signers:
+      - applogic
+    permitted_signers:
+      - applogic
+  read_currencies:
+    mandatory_signers:
+      - applogic
+    permitted_signers:
+      - applogic
+  write_currencies:
+    mandatory_signers:
+      - applogic
+    permitted_signers:
+      - applogic
+  read_markets:
+    mandatory_signers:
+      - applogic
+    permitted_signers:
+      - applogic
+  write_markets:
+    mandatory_signers:
+      - applogic
+    permitted_signers:
+      - applogic
+  tools:
+    mandatory_signers:
+      - applogic
+    permitted_signers:
+      - applogic
+
+jwt: {}
