@@ -13,5 +13,5 @@ services:
     labels:
       traefik.enable: true
       traefik.frontend.rule: "Host:pma.<%= @config['app']['domain'] %>"
-      traefik.frontend.auth.basic: '<%= @config['pma']['basic_auth'] %>'
+      #traefik.frontend.auth.basic: '<%= @config['pma']['basic_auth'] %>'
       traefik.port: 80
