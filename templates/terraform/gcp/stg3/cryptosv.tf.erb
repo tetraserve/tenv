@@ -1,5 +1,0 @@
-<% if @config['gcp']['tf_exec']['cryptosv'] %>
-<%= ERB.new(File.read(
-    'config/templates/terraform/gcp/tmpl_cryptosv.tf.erb'
-      ), trim_mode: '-').result(binding) %>
-<% end %>

@@ -1,6 +1,5 @@
 #!/bin/bash -x
 
-#bundle exec rake service:logsv
 start_opendax() {
   sudo -u deploy bash <<EOS
   cd /home/deploy
@@ -8,9 +7,10 @@ start_opendax() {
   rvm install --quiet-curl 2.6.5
   rvm use --default 2.6.5
   gem install bundler
-  cd opendax
+  cd snnenv
   bundle install --path vendor/bundle
   bundle exec rake render:config
+  bundle exec rake service:logagent
 EOS
 }
 

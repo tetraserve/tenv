@@ -1,6 +1,6 @@
 #!/bin/bash -x
 
-source /home/$USER/opendax/bin/install_lib.sh
+source /home/$USER/snnenv/bin/install_lib.sh
 
 install_firewall() {
   sudo bash <<EOS

@@ -1,5 +1,0 @@
-<% if @config['gcp']['tf_exec']['mailsv'] %>
-<%= ERB.new(File.read(
-    'config/templates/terraform/gcp/tmpl_mailsv.tf.erb'
-      ), trim_mode: '-').result(binding) %>
-<% end %>

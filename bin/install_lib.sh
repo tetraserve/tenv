@@ -1,5 +1,5 @@
 
-# For Ubuntu 18.04 LTS minimal
+# For Ubuntu 20.04 LTS minimal
 
 COMPOSE_VERSION="1.23.2"
 COMPOSE_URL="https://github.com/docker/compose/releases/download/$COMPOSE_VERSION/docker-compose-$(uname -s)-$(uname -m)"

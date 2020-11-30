@@ -1,6 +1,0 @@
-users_sync_job:
-  cron: "0 0 * * *"  # it will retrieve data every 1 day
-  class: "UsersSyncWorker"
-  args:
-    period: '1'
-    action: 'sync' # you also can start a new job with action 'reg' to pull new users
