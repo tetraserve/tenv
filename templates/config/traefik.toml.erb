@@ -35,10 +35,6 @@ defaultEntryPoints = [<%= '"https",' if @config['ssl']['enabled'] %>"http"]
     [backends.backend1.servers]
       [backends.backend1.servers.server0]
         # Redirect to host os's ip or localhost
-        # Win or Mac docker localhost:
-        #url = "http://host.docker.internal:3001"
-        # Unix standard docker config:
-        # (Ruby or npm running on host os listening on 0.0.0.0:3001)
         url = "http://host.docker.internal:3000"
         weight = 1
   [backends.backend2]
@@ -52,7 +48,6 @@ defaultEntryPoints = [<%= '"https",' if @config['ssl']['enabled'] %>"http"]
     backend = "backend1"
     passHostHeader = true
     [frontends.frontend1.routes.host]
-      #rule = "PathPrefix:/pconsole;Host:<%= @config['app']['subdomain'] %>.<%= @config['app']['domain'] %>"
       rule = "Host:<%= @config['app']['subdomain'] %>.<%= @config['app']['domain'] %>"
   [frontends.frontend2]
     backend = "backend2"
