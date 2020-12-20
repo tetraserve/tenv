@@ -46,9 +46,9 @@ namespace :service do
     def start
       puts '----- Starting dependencies -----'
       sh "mkdir -p #{@config['app']['docker_volumes_path']}/db_data"
-      sh "sudo chmod a+w #{@config['app']['docker_volumes_path']}/db_data"
+      #sh "sudo chmod a+w #{@config['app']['docker_volumes_path']}/db_data"
       sh "mkdir -p #{@config['app']['docker_volumes_path']}/redis_data"
-      sh "sudo chmod a+w #{@config['app']['docker_volumes_path']}/redis_data"
+      #sh "sudo chmod a+w #{@config['app']['docker_volumes_path']}/redis_data"
       sh 'docker-compose up -d db redis'
       sleep 7 # time for db to start, we can get connection refused without sleeping
     end
@@ -62,6 +62,7 @@ namespace :service do
     @switch.call(args, method(:start), method(:stop))
   end
 
+=begin  
   desc 'Run app (barong, peatio)'
   task :app, [:command] => [:proxy, :backend] do |task, args|
     args.with_defaults(:command => 'start')
@@ -78,6 +79,7 @@ namespace :service do
 
     @switch.call(args, method(:start), method(:stop))
   end
+=end
 
   desc '[Optional] Run phpmyadmin'
   task :pma, [:command] do |task, args|
@@ -103,15 +105,17 @@ namespace :service do
     def start
       Rake::Task["service:proxy"].invoke('start')
       Rake::Task["service:backend"].invoke('start')
-      puts 'Wait 5 second for backend'
-      sleep(5)
-      Rake::Task["service:app"].invoke('start')
+      #puts 'Wait 5 second for backend'
+      #sleep(5)
+      #Rake::Task["service:app"].invoke('start')
+      Rake::Task["service:pma"].invoke('start')
     end
 
     def stop
       Rake::Task["service:proxy"].invoke('stop')
       Rake::Task["service:backend"].invoke('stop')
-      Rake::Task["service:app"].invoke('stop')
+      #Rake::Task["service:app"].invoke('stop')
+      Rake::Task["service:pma"].invoke('stop')
     end
 
     @switch.call(args, method(:start), method(:stop))

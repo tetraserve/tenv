@@ -39,12 +39,12 @@ defaultEntryPoints = [<%= '"https",' if @config['ssl']['enabled'] %>"http"]
         #url = "http://host.docker.internal:3001"
         # Unix standard docker config:
         # (Ruby or npm running on host os listening on 0.0.0.0:3001)
-        url = "http://172.17.0.1:3001"
+        url = "http://host.docker.internal:3000"
         weight = 1
   [backends.backend2]
     [backends.backend2.servers]
       [backends.backend2.servers.server0]
-        url = "http://172.17.0.1:3002"
+        url = "http://host.docker.internal:3001"
         weight = 1
 
 [frontends]
@@ -52,12 +52,13 @@ defaultEntryPoints = [<%= '"https",' if @config['ssl']['enabled'] %>"http"]
     backend = "backend1"
     passHostHeader = true
     [frontends.frontend1.routes.host]
-      rule = "PathPrefix:/pconsole;Host:<%= @config['app']['subdomain'] %>.<%= @config['app']['domain'] %>"
+      #rule = "PathPrefix:/pconsole;Host:<%= @config['app']['subdomain'] %>.<%= @config['app']['domain'] %>"
+      rule = "Host:<%= @config['app']['subdomain'] %>.<%= @config['app']['domain'] %>"
   [frontends.frontend2]
     backend = "backend2"
     passHostHeader = true
     [frontends.frontend2.routes.host]
-      rule = "Host:pqhack3.<%= @config['app']['domain'] %>"
+      rule = "Host:www1.<%= @config['app']['domain'] %>"
 
 ########
 
