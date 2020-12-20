@@ -12,21 +12,11 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: changeme
 
-  redis:
-    image: redis:4.0.14
-    restart: always
-    volumes:
-      - redis_data:/data
-
 volumes:
   db_data:
     driver_opts:
       type: none
       device: "<%= @config['app']['docker_volumes_path'] %>/db_data"
       o: bind
-  redis_data:
-    driver_opts:
-      type: none
-      device: "<%= @config['app']['docker_volumes_path'] %>/redis_data"
-      o: bind
+
 

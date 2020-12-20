@@ -39,7 +39,7 @@ namespace :service do
     @switch.call(args, method(:start), method(:stop))
   end
 
-  desc 'Run backend (db redis)'
+  desc 'Run backend (db)'
   task :backend, [:command] do |task, args|
     args.with_defaults(:command => 'start')
 
@@ -47,15 +47,13 @@ namespace :service do
       puts '----- Starting dependencies -----'
       sh "mkdir -p #{@config['app']['docker_volumes_path']}/db_data"
       #sh "sudo chmod a+w #{@config['app']['docker_volumes_path']}/db_data"
-      sh "mkdir -p #{@config['app']['docker_volumes_path']}/redis_data"
-      #sh "sudo chmod a+w #{@config['app']['docker_volumes_path']}/redis_data"
-      sh 'docker-compose up -d db redis'
-      sleep 7 # time for db to start, we can get connection refused without sleeping
+      sh 'docker-compose up -d db'
+      sleep 5 # time for db to start, we can get connection refused without sleeping
     end
 
     def stop
       puts '----- Stopping dependencies -----'
-      sh 'docker-compose rm -fs db redis'
+      sh 'docker-compose rm -fs db'
     end
 
 

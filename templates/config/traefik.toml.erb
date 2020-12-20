@@ -35,6 +35,7 @@ defaultEntryPoints = [<%= '"https",' if @config['ssl']['enabled'] %>"http"]
     [backends.backend1.servers]
       [backends.backend1.servers.server0]
         # Redirect to host os's ip or localhost
+        # "host.docker.internal" is available from docker 20.10.1
         url = "http://host.docker.internal:3000"
         weight = 1
   [backends.backend2]

@@ -13,5 +13,5 @@ services:
       - ../config/acme.json:/acme.json
     networks:
       - default
-    extra_hosts:
+    extra_hosts: # available from docker 20.10.1
       - "host.docker.internal:host-gateway"
