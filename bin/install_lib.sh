@@ -48,7 +48,7 @@ EOS
 
 # Docker installation
 install_docker() {
-  export VERSION=19.03.8
+  export VERSION=20.10.1
   curl -fsSL https://get.docker.com/ | bash
   sudo bash <<EOS
 usermod -a -G docker $USER
