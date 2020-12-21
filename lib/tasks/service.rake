@@ -44,15 +44,15 @@ namespace :service do
     args.with_defaults(:command => 'start')
 
     def start
-      puts '----- Starting dependencies -----'
+      puts '----- Starting backend -----'
       sh "mkdir -p #{@config['app']['docker_volumes_path']}/db_data"
       #sh "sudo chmod a+w #{@config['app']['docker_volumes_path']}/db_data"
       sh 'docker-compose up -d db'
-      sleep 1 # time for db to start, we can get connection refused without sleeping
+      sleep 5 # time for db to start, we can get connection refused without sleeping
     end
 
     def stop
-      puts '----- Stopping dependencies -----'
+      puts '----- Stopping backend -----'
       sh 'docker-compose rm -fs db'
     end
 
@@ -60,8 +60,8 @@ namespace :service do
     @switch.call(args, method(:start), method(:stop))
   end
 
-  desc 'Run app (snn'
-  task :app, [:command] => [:proxy, :backend] do |task, args|
+  desc 'Run app (snn)'
+  task :app, [:command] do |task, args|
     args.with_defaults(:command => 'start')
 
     def start
@@ -102,8 +102,6 @@ namespace :service do
       Rake::Task["service:backend"].invoke('start')
       Rake::Task["service:proxy"].invoke('start')
       Rake::Task["service:pma"].invoke('start')
-      puts 'Wait 5 second for backend'
-      sleep(5)
       Rake::Task["service:app"].invoke('start')
     end
 
