@@ -1,21 +1,15 @@
 version: '3.8'
 
 services:
-  peatio:
+  snn:
     restart: always
-    image: "<%= @config['images']['peatio'] %>"
+    image: "yuknak/snn:latest"
     env_file:
-      - ../config/peatio.env
+      - ../config/snn.env
     expose:
-      - "8000"
-    volumes:
-      - ../config/peatio/seed:/opt/peatio/config/seed
-      - ../config/peatio/management_api_v1.yml:/opt/peatio/config/management_api_v1.yml
-      - ../config/peatio/plugins.yml:/opt/peatio/config/plugins.yml
-    labels: {}
-    command: bash -c "bin/link_config && bundle exec puma --config config/puma.rb"
+      - "3001"
     labels:
       traefik.enable: true
-      traefik.frontend.rule: "Host: swagger.<%= @config['app']['domain'] %>"
-      traefik.port: 8000
-
+      traefik.frontend.rule: "Host:test.<%= @config['app']['domain'] %>"
+      #traefik.frontend.auth.basic: '<%= @config['pma']['basic_auth'] %>'
+      traefik.port: 3001

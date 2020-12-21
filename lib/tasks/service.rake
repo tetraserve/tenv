@@ -48,7 +48,7 @@ namespace :service do
       sh "mkdir -p #{@config['app']['docker_volumes_path']}/db_data"
       #sh "sudo chmod a+w #{@config['app']['docker_volumes_path']}/db_data"
       sh 'docker-compose up -d db'
-      sleep 5 # time for db to start, we can get connection refused without sleeping
+      sleep 1 # time for db to start, we can get connection refused without sleeping
     end
 
     def stop
@@ -60,24 +60,22 @@ namespace :service do
     @switch.call(args, method(:start), method(:stop))
   end
 
-=begin  
-  desc 'Run app (barong, peatio)'
+  desc 'Run app (snn'
   task :app, [:command] => [:proxy, :backend] do |task, args|
     args.with_defaults(:command => 'start')
 
     def start
       puts '----- Starting app -----'
-      sh 'docker-compose up -d peatio'
+      sh 'docker-compose up -d snn'
     end
 
     def stop
       puts '----- Stopping app -----'
-      sh 'docker-compose rm -fs peatio'
+      sh 'docker-compose rm -fs snn'
     end
 
     @switch.call(args, method(:start), method(:stop))
   end
-=end
 
   desc '[Optional] Run phpmyadmin'
   task :pma, [:command] do |task, args|
@@ -101,19 +99,19 @@ namespace :service do
     args.with_defaults(:command => 'start')
 
     def start
-      Rake::Task["service:proxy"].invoke('start')
       Rake::Task["service:backend"].invoke('start')
-      #puts 'Wait 5 second for backend'
-      #sleep(5)
-      #Rake::Task["service:app"].invoke('start')
+      Rake::Task["service:proxy"].invoke('start')
       Rake::Task["service:pma"].invoke('start')
+      puts 'Wait 5 second for backend'
+      sleep(5)
+      Rake::Task["service:app"].invoke('start')
     end
 
     def stop
+      Rake::Task["service:app"].invoke('stop')
+      Rake::Task["service:pma"].invoke('stop')
       Rake::Task["service:proxy"].invoke('stop')
       Rake::Task["service:backend"].invoke('stop')
-      #Rake::Task["service:app"].invoke('stop')
-      Rake::Task["service:pma"].invoke('stop')
     end
 
     @switch.call(args, method(:start), method(:stop))
