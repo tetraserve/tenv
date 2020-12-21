@@ -1,7 +1,7 @@
 
 # For Ubuntu 20.04 LTS minimal
 
-COMPOSE_VERSION="1.23.2"
+COMPOSE_VERSION="1.27.4"
 COMPOSE_URL="https://github.com/docker/compose/releases/download/$COMPOSE_VERSION/docker-compose-$(uname -s)-$(uname -m)"
 
 # Needed for elasticsearch
