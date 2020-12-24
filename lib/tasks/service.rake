@@ -48,7 +48,6 @@ namespace :service do
       sh "mkdir -p #{@config['app']['docker_volumes_path']}/db_data"
       #sh "sudo chmod a+w #{@config['app']['docker_volumes_path']}/db_data"
       sh 'docker-compose up -d db'
-      sleep 5 # time for db to start, we can get connection refused without sleeping
     end
 
     def stop
@@ -100,6 +99,7 @@ namespace :service do
 
     def start
       Rake::Task["service:backend"].invoke('start')
+      sleep(5)
       Rake::Task["service:proxy"].invoke('start')
       Rake::Task["service:pma"].invoke('start')
       Rake::Task["service:app"].invoke('start')

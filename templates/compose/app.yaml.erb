@@ -10,6 +10,6 @@ services:
       - "3001"
     labels:
       traefik.enable: true
-      traefik.frontend.rule: "Host:test.<%= @config['app']['domain'] %>"
-      #traefik.frontend.auth.basic: '<%= @config['pma']['basic_auth'] %>'
+      traefik.frontend.rule: "Host:<%= @config['app']['subdomain'] %>.<%= @config['app']['domain'] %>"
+      #traefik.frontend.auth.basic: '<%= @config['app']['basic_auth'] %>'
       traefik.port: 3001
