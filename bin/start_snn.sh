@@ -1,6 +1,6 @@
 #!/bin/bash -x
 
-start_opendax() {
+start_snn() {
   sudo -u deploy bash <<EOS
   cd /home/deploy
   source /home/deploy/.rvm/scripts/rvm
@@ -10,8 +10,7 @@ start_opendax() {
   cd snnenv
   bundle install --path vendor/bundle
   bundle exec rake render:config
-  bundle exec rake service:logagent
 EOS
 }
 
-start_opendax
+start_snn

@@ -9,7 +9,7 @@ GEM
     declarative-option (0.1.0)
     diff-lcs (1.4.4)
     excon (0.78.1)
-    faraday (1.1.0)
+    faraday (1.2.0)
       multipart-post (>= 1.2, < 3)
       ruby2_keywords
     fog-core (2.1.0)
@@ -70,7 +70,7 @@ GEM
     rack (2.2.3)
     rack-protection (2.1.0)
       rack
-    rake (13.0.2)
+    rake (13.0.3)
     representable (3.0.4)
       declarative (< 0.1.0)
       declarative-option (< 0.2.0)
@@ -121,7 +121,7 @@ DEPENDENCIES
   sshkey
 
 RUBY VERSION
-   ruby 2.6.5p114
+   ruby 2.7.2p137
 
 BUNDLED WITH
-   2.0.2
+   2.1.4

@@ -136,7 +136,7 @@ namespace :confpack do
       if (!check_filename(args.file)) then
         next
       end
-      tgzargs = "--exclude .gitkeep opendax/deploy_secrets"
+      tgzargs = "--exclude .gitkeep snnenv/deploy_secrets"
       save("#{@deploy_secrets_basename}", args.file, tgzargs)
     end
   end
@@ -162,11 +162,11 @@ namespace :confpack do
         next
       end
       tgzargs = "--exclude sample.app.yml "+
-      "opendax/config/secrets/*.key* "+
-      "opendax/config/app.yml.d/*.yml "+
-      "opendax/config/deploy.yml "+
-      "opendax/config/utils.yml "+
-      "opendax/config/render.json"
+      "snnenv/config/secrets/*.key* "+
+      "snnenv/config/app.yml.d/*.yml "+
+      "snnenv/config/deploy.yml "+
+      "snnenv/config/utils.yml "+
+      "snnenv/config/render.json"
       save("#{@app_conf_basename}", args.file, tgzargs)
     end
   end
