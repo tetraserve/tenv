@@ -1,0 +1,23 @@
+################ Variables for GCP
+
+variable "credentials" {
+  default = "<%= @deploy['gcp']['credentials'] %>"
+}
+variable "project" {
+  default =  "<%= @deploy['gcp']['project'] %>"
+}
+variable "region" {
+  default =  "<%= @deploy['gcp']['region'] %>"
+}
+variable "zone" {
+  default =  "<%= @deploy['gcp']['zone'] %>"
+}
+variable "image" {
+  default =  "<%= @deploy['gcp']['image'] %>"
+}
+variable "mailsv_machine_type" {
+  default =  "<%= @deploy['gcp']['mailsv_machine_type'] %>"
+}
+variable "mailsv_disk_size" {
+  default =  "<%= @deploy['gcp']['mailsv_disk_size'] %>"
+}

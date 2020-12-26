@@ -68,6 +68,7 @@ namespace :confpack do
         set_bucket
         Dir.chdir('..') do
           sh "tar cvzf #{tgz_basename}_#{filename}.tgz #{args}"
+          # mac: brew install openssl
           sh "openssl aes-256-cbc -e -pbkdf2 "+
               "-in #{tgz_basename}_#{filename}.tgz "+
               "-out #{tgz_basename}_#{filename}.tgz.enc "+
@@ -106,6 +107,7 @@ namespace :confpack do
           return
         end
         Dir.chdir('..') do
+          # mac: brew install openssl
           sh "openssl aes-256-cbc -d -pbkdf2 "+
               "-in #{tgz_basename}_#{filename}.tgz.enc "+
               "-out #{tgz_basename}_#{filename}.tgz "+

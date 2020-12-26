@@ -9,6 +9,11 @@ namespace :db do
     sh 'docker-compose run --rm snn bundle exec rake db:create'
   end
 
+  desc 'Migrate database'
+  task :migrate do
+    sh 'docker-compose run --rm snn bundle exec rake db:migrate'
+  end
+
   desc 'Load database dump'
   task :load => :create do
     sh %Q{cat data/mysql/snn_production.sql | docker-compose run --rm db #{mysql_cli} snn_production}
