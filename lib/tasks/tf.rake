@@ -46,6 +46,10 @@ namespace :tf do
   end
 
   desc 'Initialize the Terraform configuration'
+  # At very fist, after install terraform itself,
+  # Maybe you have to execute terraform init manually in
+  # subdir
+  # for plugin install or something.
   task :init do
     next if (!set_env)
     delete_tf_files

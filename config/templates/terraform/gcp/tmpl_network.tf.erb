@@ -1,22 +1,22 @@
 ################ Output
 
-output "opendax_network" {
-  value = "${google_compute_network.opendax}"
+output "app_network" {
+  value = "${google_compute_network.app}"
 }
 
 ################ Network resources
 
 #### Network
 
-resource "google_compute_network" "opendax" {
-  name = "opendax-network"
+resource "google_compute_network" "app" {
+  name = "app-network"
 }
 
 #### Firewall
 
-resource "google_compute_firewall" "opendax" {
-  name    = "opendax-firewall"
-  network = google_compute_network.opendax.name
+resource "google_compute_firewall" "app" {
+  name    = "app-firewall"
+  network = google_compute_network.app.name
   allow {
     protocol = "tcp"
     ports    = [ "80", "8080", "1337", "443", "22", "822", "25", "587", "143"]

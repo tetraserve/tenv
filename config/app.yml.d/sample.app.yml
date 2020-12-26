@@ -19,8 +19,6 @@ cloudflare:
 ssl:
   enabled: false    # Make sure to enable during deployment
   email: "support@example.com"
-images:
-  snn: yuknak/snn:1.0.0
 database:
   host: db
   port: 3306
@@ -32,7 +30,7 @@ hc:
   tf_exec:
     network: true
     volumes: true
-    snn: true
+    app: true
     remote: true
-  snn_machine_type: cx21
-  snn_machine_ip: '10.1.1.2'
+  app_machine_type: cx21
+  app_machine_ip: '10.1.1.2'

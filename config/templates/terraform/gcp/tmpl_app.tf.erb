@@ -1,0 +1,92 @@
+################ App
+
+######## Output
+
+output "app_external_ip_<%= @config['mode'] %>" {
+  value = google_compute_address.app-<%= @config['mode'] %>.address
+}
+output "app_internal_ip_<%= @config['mode'] %>" {
+  value = google_compute_instance.app-<%= @config['mode'] %>.network_interface[0].network_ip
+}
+
+######## Instance
+
+resource "google_compute_instance" "app-<%= @config['mode'] %>" {
+  name         = "app-<%= @config['mode'] %>"
+  machine_type = "<%= @config['gcp']['app_machine_type'] %>"
+  zone         = var.zone
+  allow_stopping_for_update = true
+  lifecycle {
+    ignore_changes = [attached_disk]
+  }
+  boot_disk {
+    initialize_params {
+      image = var.image
+      type  = "pd-ssd"
+      size  = "<%= @config['gcp']['app_disk_size'] %>"
+    }
+  }
+  network_interface {
+    network = data.terraform_remote_state.network.outputs.app_network.id
+    access_config {
+      nat_ip = google_compute_address.app-<%= @config['mode'] %>.address
+    }
+  }
+  service_account {
+    scopes = ["cloud-platform"] # full access
+  }
+  tags = ["allow-webhook"]
+  metadata = {
+    sshKeys = "deploy:${file(var.ssh_public_key)}\nroot:${file(var.ssh_public_key)}"
+  }
+  # only root user can execute this.(sudo does not work.)
+  <%= RendererHelperGcp::provisioner_remote_exec(
+    'root', 
+    'inline = ['+
+      "\"hostname app-gcp-#{@config['mode']}\", "+
+      "\"cp -f /etc/hostname /etc/hostname.bak\", "+
+      "\"echo 'app-gcp-#{@config['mode']}' > /etc/hostname\""+
+    ']'
+  ) %>
+  <%= RendererHelperGcp::provisioner_file(
+    'deploy', 'var.ssh_private_key', '"/home/deploy/.ssh/id_rsa"'
+  ) %>
+  <%= RendererHelperGcp::provisioner_remote_exec(
+    'deploy', 
+    'inline = ['+
+      '"chmod 600 /home/deploy/.ssh/id_rsa", '+
+      '"mkdir -p /home/deploy/app"'+
+    ']'
+  ) %>
+  <%= RendererHelperGcp::provisioner_local_exec(
+    '"rm -rf /tmp/upload && mkdir -p /tmp/upload && rsync -rv --copy-links --safe-links ../../../ /tmp/upload/"'
+  ) %>
+  <%= RendererHelperGcp::provisioner_file(
+    'deploy', '"/tmp/upload/"', '"/home/deploy/app"'
+  ) %>
+  <%= RendererHelperGcp::provisioner_remote_exec(
+    'deploy', 'script = "../../../bin/install_app.sh"'
+  ) %>
+  <%= RendererHelperGcp::provisioner_remote_exec(
+    'deploy', 'script = "../../../bin/start_app.sh"'
+  ) %>
+ 
+}
+
+######## IP & Disks
+
+resource "google_compute_address" "app-<%= @config['mode'] %>" {
+  name = "app-ip-<%= @config['mode'] %>"
+}
+
+#resource "google_compute_disk" "app-<%= @config['mode'] %>" {
+#  name = "app-docker-volumes-<%= @config['mode'] %>"
+#  type  = "pd-ssd"
+#  zone  = var.zone
+#  size  = 60
+#}
+
+#resource "google_compute_attached_disk" "app-<%= @config['mode'] %>" {
+#  disk     = google_compute_disk.app-<%= @config['mode'] %>.id
+#  instance = google_compute_instance.app-<%= @config['mode'] %>.id
+#}

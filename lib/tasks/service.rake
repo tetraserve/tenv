@@ -59,18 +59,18 @@ namespace :service do
     @switch.call(args, method(:start), method(:stop))
   end
 
-  desc 'Run app (snn)'
+  desc 'Run app'
   task :app, [:command] do |task, args|
     args.with_defaults(:command => 'start')
 
     def start
       puts '----- Starting app -----'
-      sh 'docker-compose up -d snn'
+      sh 'docker-compose up -d app'
     end
 
     def stop
       puts '----- Stopping app -----'
-      sh 'docker-compose rm -fs snn'
+      sh 'docker-compose rm -fs app'
     end
 
     @switch.call(args, method(:start), method(:stop))

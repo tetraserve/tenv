@@ -13,13 +13,13 @@ provider "google" {
   project     = var.project
   region      = var.region
 }
-provider "cloudflare" {
-  version = "~> 2.0"
-  api_token  = file(var.cloudflare_token)
-}
-provider "sakuracloud" {
-  version = "~> 2.3"
-  token  = file(var.sakuracloud_token)
-  secret = file(var.sakuracloud_secret)
-  zone   = var.sakuracloud_zone
-}
+#provider "cloudflare" {
+#  version = "~> 2.0"
+#  api_token  = file(var.cloudflare_token)
+#}
+#provider "sakuracloud" {
+#  version = "~> 2.3"
+#  token  = file(var.sakuracloud_token)
+#  secret = file(var.sakuracloud_secret)
+#  zone   = var.sakuracloud_zone
+#}
