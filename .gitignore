@@ -31,3 +31,4 @@ config/gateway/envoy.yaml
 confpack.json
 *.tf
 /config/render.json
+/*.sql

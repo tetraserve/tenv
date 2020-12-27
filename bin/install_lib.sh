@@ -12,7 +12,7 @@ fix_system() {
 EOS
 }
 
-# Opendax bootstrap script
+# bootstrap script
 # Note) DEBIAN_FRONTEND for tzdata install screen stop
 # https://serverfault.com/questions/949991/how-to-install-tzdata-on-a-ubuntu-docker-image
 # At first, sleep for seconds to initial image to be updated by GCP infra or other.
@@ -29,6 +29,7 @@ apt-get install -y -q vim
 update-alternatives --set editor /usr/bin/vim.tiny
 apt-get install -y -q monit
 apt-get install -y -q munin-node
+apt-get install -y -q mysql-client
 EOS
 }
 
