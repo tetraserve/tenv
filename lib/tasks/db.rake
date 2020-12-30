@@ -1,35 +1,33 @@
 namespace :db do
-
-  #docker exec -it container_name-mysql bash -c 'MYSQL_PWD=password mysqldump -u user db_name' 1> sql.dump
   
   def mysql_cli
-    return "mysql -u root -h 127.0.0.1 -P 3306 -pchangeme"
+    return "MYSQL_PWD=lcF0i3KVzxJxQV mysql -u root -h 127.0.0.1 -P 3306"
   end
 
   def mysql_dump
     puts "Notice) As mysql 5.7 mysqldump."
-    return "mysqldump -u root -h 127.0.0.1 -P 3306 -pchangeme"
+    return "MYSQL_PWD=lcF0i3KVzxJxQV mysqldump -u root -h 127.0.0.1 -P 3306"
   end
 
   # mysql8.0 client cannot handle 5.7 database as default
   def mysql_dump8
     puts "Notice) As mysql 8.0 mysqldump, using --skip-column-statistics.."
-    return "mysqldump -u root -h 127.0.0.1 -P 3306 -pchangeme --skip-column-statistics"
+    return "MYSQL_PWD=lcF0i3KVzxJxQV mysqldump -u root -h 127.0.0.1 -P 3306 --skip-column-statistics"
   end
 
-  desc 'Create database'
-  task :create do
-    sh 'docker-compose run --rm app bundle exec rake db:create'
+  desc 'Create snn database'
+  task :snn_create do
+    sh 'docker-compose run --rm snn bundle exec rake db:create'
   end
 
-  desc 'Migrate database'
-  task :migrate do
-    sh 'docker-compose run --rm app bundle exec rake db:migrate'
+  desc 'Migrate snn database'
+  task :snn_migrate do
+    sh 'docker-compose run --rm snn bundle exec rake db:migrate'
   end
 
-  desc 'Drop database'
-  task :drop do
-    sh 'docker-compose run --rm app bundle exec rake db:drop'
+  desc 'Drop snn database'
+  task :snn_drop do
+    sh 'docker-compose run --rm snn bundle exec rake db:drop'
   end
 
   desc 'Database Console'
