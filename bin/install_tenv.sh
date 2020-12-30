@@ -1,6 +1,6 @@
 #!/bin/bash -x
 
-source /home/$USER/app/bin/install_lib.sh
+source /home/$USER/tenv/bin/install_lib.sh
 
 install_firewall() {
   sudo bash <<EOS

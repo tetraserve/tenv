@@ -7,7 +7,7 @@ start_tenv() {
   rvm install --quiet-curl 2.7.2
   rvm use --default 2.7.2
   gem install bundler
-  cd app
+  cd tenv
   bundle install --path vendor/bundle
   bundle exec rake render:config
 EOS
