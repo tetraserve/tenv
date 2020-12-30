@@ -3,7 +3,7 @@ version: '3.8'
 services:
   proxy:
     restart: always
-    image: traefik:1.7.24
+    image: traefik:1.7.26
     ports:
       - "80:80"
       - "443:443"
@@ -13,5 +13,5 @@ services:
       - ../config/acme.json:/acme.json
     networks:
       - default
-    extra_hosts: # available from docker 20.10.1
+    extra_hosts: # available from docker 20.10.1 on linux
       - "host.docker.internal:host-gateway"

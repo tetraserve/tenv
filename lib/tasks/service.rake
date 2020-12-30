@@ -1,7 +1,7 @@
 require_relative '../opendax/util'
 
 namespace :service do
-  ENV['APP_DOMAIN'] = @config['app']['domain']
+  #ENV['APP_DOMAIN'] = @config['domain']
 
   @switch = Proc.new do |args, start, stop|
     case args.command
@@ -45,8 +45,8 @@ namespace :service do
 
     def start
       puts '----- Starting backend -----'
-      sh "mkdir -p #{@config['app']['docker_volumes_path']}/db_data"
-      #sh "sudo chmod a+w #{@config['app']['docker_volumes_path']}/db_data"
+      sh "mkdir -p #{@config['database']['docker_volumes_path']}/db_data"
+      #sh "sudo chmod a+w #{@config['database']['docker_volumes_path']}/db_data"
       sh 'docker-compose up -d db'
     end
 
@@ -59,18 +59,18 @@ namespace :service do
     @switch.call(args, method(:start), method(:stop))
   end
 
-  desc 'Run app'
-  task :app, [:command] do |task, args|
+  desc 'Run snn'
+  task :snn, [:command] do |task, args|
     args.with_defaults(:command => 'start')
 
     def start
-      puts '----- Starting app -----'
-      sh 'docker-compose up -d app'
+      puts '----- Starting snn -----'
+      sh 'docker-compose up -d snn'
     end
 
     def stop
-      puts '----- Stopping app -----'
-      sh 'docker-compose rm -fs app'
+      puts '----- Stopping snn -----'
+      sh 'docker-compose rm -fs snn'
     end
 
     @switch.call(args, method(:start), method(:stop))
@@ -102,11 +102,11 @@ namespace :service do
       sleep(5)
       Rake::Task["service:proxy"].invoke('start')
       Rake::Task["service:pma"].invoke('start')
-      Rake::Task["service:app"].invoke('start')
+      Rake::Task["service:snn"].invoke('start')
     end
 
     def stop
-      Rake::Task["service:app"].invoke('stop')
+      Rake::Task["service:snn"].invoke('stop')
       Rake::Task["service:pma"].invoke('stop')
       Rake::Task["service:proxy"].invoke('stop')
       Rake::Task["service:backend"].invoke('stop')

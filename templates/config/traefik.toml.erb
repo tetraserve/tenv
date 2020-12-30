@@ -38,23 +38,13 @@ defaultEntryPoints = [<%= '"https",' if @config['ssl']['enabled'] %>"http"]
         # "host.docker.internal" is available from docker 20.10.1
         url = "http://host.docker.internal:3000"
         weight = 1
-#  [backends.backend2]
-#    [backends.backend2.servers]
-#      [backends.backend2.servers.server0]
-#        url = "http://host.docker.internal:3002"
-#        weight = 1
 
 [frontends]
   [frontends.frontend1]
     backend = "backend1"
     passHostHeader = true
     [frontends.frontend1.routes.host]
-      rule = "Host:test.<%= @config['app']['domain'] %>"
-#  [frontends.frontend2]
-#    backend = "backend2"
-#    passHostHeader = true
-#    [frontends.frontend2.routes.host]
-#      rule = "Host:test2.<%= @config['app']['domain'] %>"
+      rule = "Host:test.<%= @config['domain'] %>"
 
 ########
 

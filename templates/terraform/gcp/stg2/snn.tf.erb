@@ -1,5 +1,5 @@
-<% if @config['gcp']['tf_exec']['app'] %>
+<% if @config['gcp']['tf_exec']['snn'] %>
 <%= ERB.new(File.read(
-    'config/templates/terraform/gcp/tmpl_app.tf.erb'
+    'config/templates/terraform/gcp/tmpl_snn.tf.erb'
       ), trim_mode: '-').result(binding) %>
 <% end %>

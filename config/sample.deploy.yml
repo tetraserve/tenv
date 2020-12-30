@@ -10,7 +10,7 @@ gcp:
   project: "opendax"
   region: "asia-northeast1"
   zone: "asia-northeast1-a"
-  image: "ubuntu-os-cloud/ubuntu-minimal-1804-lts"
+  image: "ubuntu-os-cloud/ubuntu-minimal-2004-lts"
   mailsv_machine_type: n1-standard-1
   mailsv_disk_size: 30
 hcloud:

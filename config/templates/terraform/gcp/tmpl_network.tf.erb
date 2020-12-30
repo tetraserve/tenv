@@ -1,22 +1,22 @@
 ################ Output
 
-output "app_network" {
-  value = "${google_compute_network.app}"
+output "tenv_network" {
+  value = "${google_compute_network.tenv}"
 }
 
 ################ Network resources
 
 #### Network
 
-resource "google_compute_network" "app" {
-  name = "app-network"
+resource "google_compute_network" "tenv" {
+  name = "tenv-network"
 }
 
 #### Firewall
 
-resource "google_compute_firewall" "app" {
-  name    = "app-firewall"
-  network = google_compute_network.app.name
+resource "google_compute_firewall" "tenv" {
+  name    = "tenv-firewall"
+  network = google_compute_network.tenv.name
   allow {
     protocol = "tcp"
     ports    = [ "80", "8080", "1337", "443", "22", "822", "25", "587", "143"]

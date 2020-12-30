@@ -8,29 +8,27 @@
 # and bundle exec rake r:c[local]
 ################################################################################
 mode: "sample"
-app:
-  name: "SNN" # DO NOT CHANGE LATER, because used in docker-volume names
-  domain: "supernn.local"
-  subdomain: "www"
-  docker_volumes_path: "/home/__USER__/docker_volumes" # __USER__ will be replaced properly
+name: "tenv" # DO NOT CHANGE LATER, because used in docker-volume name's prefix
+domain: "tetraserve.biz"
+snn:
+  subdomain: "snn"
+  aliasdomain: "supernn.net"
 render_protect: false
-cloudflare:
-  zone_id: none
 ssl:
-  enabled: false    # Make sure to enable during deployment
+  enabled: false
   email: "support@example.com"
 database:
   host: db
   port: 3306
   user: root
   password: changeme
+  docker_volumes_path: "__HOME__/docker_volumes" # __HOME__ will be replaced by Rakefile and renderer.rb
 pma:
   basic_auth: admin:$$apr1$$IQD9ABAW$$WB0N1Dh4yZ91As5QaYXn8.
-hc:
+gcp:
   tf_exec:
     network: true
-    volumes: true
-    app: true
+    snn: true
     remote: true
-  app_machine_type: cx21
-  app_machine_ip: '10.1.1.2'
+  snn_machine_type: n1-standard-1
+  snn_disk_size: 20

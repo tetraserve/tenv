@@ -1,6 +1,6 @@
 #!/bin/bash -x
 
-start_app() {
+start_tenv() {
   sudo -u deploy bash <<EOS
   cd /home/deploy
   source /home/deploy/.rvm/scripts/rvm
@@ -13,4 +13,4 @@ start_app() {
 EOS
 }
 
-start_app
+start_tenv

@@ -30,7 +30,7 @@ module Opendax
       @applogic_private_key ||= Base64.urlsafe_encode64(@applogic_key.to_pem)
       @applogic_public_key ||= Base64.urlsafe_encode64(@applogic_key.public_key.to_pem)
 
-      @config['app']['docker_volumes_path'].gsub!(/__USER__/, ENV['USER'])
+      @config['database']['docker_volumes_path'].gsub!(/__HOME__/, ENV['HOME'])
 
       Dir.glob("#{TEMPLATE_PATH}/**/*.erb", File::FNM_DOTMATCH).each do |file|
         if (@config['mode']=='local'||@config['mode']=='sample') then

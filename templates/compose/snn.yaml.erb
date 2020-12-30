@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  snn:
+    restart: always
+    image: "yuknak/snn:latest"
+    env_file:
+      - ../config/snn.env
+    expose:
+      - "3001"
+    labels:
+      traefik.enable: true
+      traefik.frontend.rule: "Host:<%= @config['snn']['aliasdomain'] %>,<%= @config['snn']['subdomain'] %>.<%= @config['domain'] %>"
+      traefik.port: 3001

@@ -52,7 +52,7 @@ CONFIG_PATH = "./config/app.yml.d/#{conf['app']}.app.yml"
 @config = YAML.load_file(CONFIG_PATH)
 
 # Special macro
-@config['app']['docker_volumes_path'].gsub!(/__USER__/, ENV['USER'])
+@config['database']['docker_volumes_path'].gsub!(/__HOME__/, ENV['HOME'])
 
 @utils = YAML.load_file(UTILS_PATH)
 @deploy = YAML.load_file(DEPLOY_PATH)
