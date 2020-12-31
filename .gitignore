@@ -22,5 +22,6 @@ compose/*.yaml
 *.tgz
 *.tgz.enc
 confpack.json
+confpack.json.*
 *.tf
 /*.sql

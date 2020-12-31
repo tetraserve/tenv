@@ -1,4 +1,5 @@
 require 'fog/google'
+require_relative '../opendax/simple_cipher'
 
 namespace :confpack do
 
@@ -24,8 +25,8 @@ namespace :confpack do
       end
       def set_bucket
         Dir.chdir('config') do
-          unless (File.exist?("confpack.json")) then
-            puts "Not found config/confpack.json."
+          unless (File.exist?("confpack.json.enc")) then
+            puts "Not found config/confpack.json.enc."
             puts "At first, you have to input 3 values to use (only once)."
             print "Bucket name: "
             @bucket['name'] = STDIN.gets.chomp
@@ -33,10 +34,16 @@ namespace :confpack do
             @bucket['accessKey'] = STDIN.gets.chomp
             print "Secret key: "
             @bucket['secretKey'] = STDIN.gets.chomp
-            File.write('confpack.json', @bucket.to_json)
+            File.write('confpack.json.enc',
+              Opendax::SimpleCipher::encrypt_string(@bucket.to_json)
+            )
           end
-          @bucket = JSON.parse(File.read('confpack.json'))
-        end
+          @bucket = JSON.parse(
+            Opendax::SimpleCipher::decrypt_string(
+              File.read('confpack.json.enc').strip
+            )
+          )
+      end
       end
       def ls(filter)
         set_bucket
@@ -60,7 +67,7 @@ namespace :confpack do
           end
         rescue
           puts "Cannot access to GCP."
-          puts "Maybe because of incorrect config/confpack.json. Erase it and retry."
+          puts "Maybe because of incorrect config/confpack.json.enc. Erase it and retry."
           return
         end
       end
@@ -85,7 +92,7 @@ namespace :confpack do
             @bucket['name'], "#{tgz_basename}_#{filename}.tgz.enc", content)
         rescue
           puts "Cannot access to GCP."
-          puts "Maybe because of incorrect config/confpack.json. Erase it and retry."
+          puts "Maybe because of incorrect config/confpack.json.enc. Erase it and retry."
         ensure
           sh "rm -f ../#{tgz_basename}_#{filename}.tgz.enc"
         end
@@ -103,7 +110,7 @@ namespace :confpack do
         rescue
           puts "File not found."
           puts "Or cannot access to GCP."
-          puts "Check config/confpack.json. If wrong, erase it and retry."
+          puts "Check config/confpack.json.enc. If wrong, erase it and retry."
           return
         end
         Dir.chdir('..') do
