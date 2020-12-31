@@ -4,6 +4,8 @@ require 'erb'
 require "digest"
 require 'json'
 
+task default: 'r:c'
+
 UTILS_PATH = 'master_config/utils.yml'.freeze
 DEPLOY_PATH = 'master_config/deploy.yml'.freeze
 
@@ -42,11 +44,15 @@ CONFIG_PATH = "./master_config/#{conf['app']}.app.yml"
 
 if (conf['app'] != "base") then
   # Special macro
+  begin
   @config['database']['docker_volumes_path'].gsub!(/__HOME__/, ENV['HOME'])
   @config['database']['password'].gsub!(
     /__DB_PASSORD__/, File.read("./config/secrets/db_password.txt").strip)
   @config['pma']['basic_auth'].gsub!(
     /__PMA_AUTH__/, File.read("./config/secrets/pma_auth.txt").strip)
+  rescue
+    #puts "WARN) May be secrets files missing."
+  end
 end
 @utils = YAML.load_file(UTILS_PATH)
 @deploy = YAML.load_file(DEPLOY_PATH)

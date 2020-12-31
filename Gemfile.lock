@@ -101,7 +101,6 @@ GEM
       rack (~> 2.2)
       rack-protection (= 2.1.0)
       tilt (~> 2.0)
-    sshkey (2.0.0)
     tilt (2.0.10)
     uber (0.1.0)
 
@@ -113,13 +112,11 @@ DEPENDENCIES
   bump
   faraday
   fog-google
-  jwt
   puma (= 4.3.6)
   rack
   rake
   rspec
   sinatra
-  sshkey
 
 RUBY VERSION
    ruby 2.7.2p137
