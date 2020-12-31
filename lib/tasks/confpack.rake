@@ -1,5 +1,5 @@
 require 'fog/google'
-require_relative '../opendax/simple_cipher'
+require_relative '../dockerconf/simple_cipher'
 
 namespace :confpack do
 
@@ -35,11 +35,11 @@ namespace :confpack do
             print "Secret key: "
             @bucket['secretKey'] = STDIN.gets.chomp
             File.write('confpack.json.enc',
-              Opendax::SimpleCipher::encrypt_string(@bucket.to_json)
+              Dockerconf::SimpleCipher::encrypt_string(@bucket.to_json)
             )
           end
           @bucket = JSON.parse(
-            Opendax::SimpleCipher::decrypt_string(
+            Dockerconf::SimpleCipher::decrypt_string(
               File.read('confpack.json.enc').strip
             )
           )

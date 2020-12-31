@@ -1,4 +1,4 @@
-module Opendax
+module Dockerconf
 
   class Util
 

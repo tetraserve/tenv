@@ -1,6 +1,6 @@
 
-require_relative '../opendax/renderer'
-require_relative '../opendax/util'
+require_relative '../dockerconf/renderer'
+require_relative '../dockerconf/util'
 
 namespace :r do
 
@@ -24,7 +24,7 @@ namespace :r do
   task :c, [:app] do |_, args|
     if (!args.app.nil?) then
       if (!check_app(args.app)) then
-        Opendax::Util::show_command_status
+        Dockerconf::Util::show_command_status
         next
       end
       conf = JSON.parse(File.read('./config/render.json'))

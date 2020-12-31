@@ -1,13 +1,13 @@
 
-require_relative '../opendax/renderer'
-require_relative '../opendax/util'
+require_relative '../dockerconf/renderer'
+require_relative '../dockerconf/util'
 
 namespace :render do
 
   desc 'Render configuration and compose files and keys'
   task :config do
-    if (!Opendax::Util::check_hostname_and_status) then
-      Opendax::Util::show_command_status
+    if (!Dockerconf::Util::check_hostname_and_status) then
+      Dockerconf::Util::show_command_status
       next
     end
     # Must be chown $USER beforehand becuase can't overwrite 
@@ -15,9 +15,9 @@ namespace :render do
     #  sh "touch config/bitcoin.conf"
     #end
     #sh "sudo chown #{ENV['USER']} config/bitcoin.conf"
-    renderer = Opendax::Renderer.new
+    renderer = Dockerconf::Renderer.new
     renderer.render
-    Opendax::Util::show_command_status
+    Dockerconf::Util::show_command_status
   end
 
 end

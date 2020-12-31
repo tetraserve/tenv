@@ -1,4 +1,4 @@
-require_relative '../opendax/util'
+require_relative '../dockerconf/util'
 require 'pathname'
 
 namespace :tf do
@@ -36,13 +36,13 @@ namespace :tf do
     conf = JSON.parse(File.read('./config/render.json'))
     if (args.kind.nil? || (args.kind != 'gcp' && args.kind != 'hc')) then
       puts "Specify paramter [gcp|hc]."
-      Opendax::Util::show_command_status
+      Dockerconf::Util::show_command_status
       next
     end
     conf['cloud'] = args.kind
     File.write('./config/render.json', conf.to_json)
     puts "Set cloud: #{conf['cloud']}"
-    Opendax::Util::show_command_status
+    Dockerconf::Util::show_command_status
   end
 
   desc 'Initialize the Terraform configuration'

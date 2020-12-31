@@ -4,7 +4,7 @@
 
 require 'openssl'
 
-module Opendax
+module Dockerconf
   class SimpleCipher
     def self.encrypt_string(str)
       cipher_salt1 = 'some-random-salt-'

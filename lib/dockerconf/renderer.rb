@@ -9,8 +9,8 @@ require_relative './renderer_helper'
 require_relative './renderer_helper_gcp'
 require_relative './renderer_helper_hc'
 
-module Opendax
-  # Renderer is class for rendering Opendax templates.
+module Dockerconf
+  # Renderer is class for rendering Dockerconf templates.
   class Renderer
     TEMPLATE_PATH = Pathname.new('./templates')
 

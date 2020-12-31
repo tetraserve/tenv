@@ -1,4 +1,4 @@
-module Opendax
+module Dockerconf
 
   # TODO: move to Gcp
 
