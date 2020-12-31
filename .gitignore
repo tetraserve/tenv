@@ -1,6 +1,7 @@
 config/acme*.json
 config/traefik*.toml
 config/*.env
+config/mysql/innodb.cnf
 config/secrets/*
 !config/secrets/.gitkeep
 vendor/

@@ -31,13 +31,15 @@ end
 conf = JSON.parse(File.read('./config/render.json'))
 CONFIG_PATH = "./master_config/#{conf['app']}.app.yml"
 @config = YAML.load_file(CONFIG_PATH)
-# Special macro
-@config['database']['docker_volumes_path'].gsub!(/__HOME__/, ENV['HOME'])
-@config['database']['password'].gsub!(
-  /__DB_PASSORD__/, File.read("./config/secrets/db_password.txt").strip)
-@config['pma']['basic_auth'].gsub!(
-  /__PMA_AUTH__/, File.read("./config/secrets/pma_auth.txt").strip)
 
+if (conf['app'] != "base") then
+  # Special macro
+  @config['database']['docker_volumes_path'].gsub!(/__HOME__/, ENV['HOME'])
+  @config['database']['password'].gsub!(
+    /__DB_PASSORD__/, File.read("./config/secrets/db_password.txt").strip)
+  @config['pma']['basic_auth'].gsub!(
+    /__PMA_AUTH__/, File.read("./config/secrets/pma_auth.txt").strip)
+end
 @utils = YAML.load_file(UTILS_PATH)
 @deploy = YAML.load_file(DEPLOY_PATH)
 

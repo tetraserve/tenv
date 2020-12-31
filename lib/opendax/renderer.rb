@@ -21,17 +21,27 @@ module Opendax
       @utils  ||= utils
       @deploy  ||= deploy
 
-      @config['database']['docker_volumes_path'].gsub!(/__HOME__/, ENV['HOME'])
-      @config['database']['password'].gsub!(
-        /__DB_PASSORD__/, File.read("./config/secrets/db_password.txt").strip)
-      @config['pma']['basic_auth'].gsub!(
-        /__PMA_AUTH__/, File.read("./config/secrets/pma_auth.txt").strip)
+      if (@config['mode'] != "base") then
+        @config['database']['docker_volumes_path'].gsub!(/__HOME__/, ENV['HOME'])
+        @config['database']['password'].gsub!(
+          /__DB_PASSORD__/, File.read("./config/secrets/db_password.txt").strip)
+        @config['pma']['basic_auth'].gsub!(
+          /__PMA_AUTH__/, File.read("./config/secrets/pma_auth.txt").strip)
+      end
 
       Dir.glob("#{TEMPLATE_PATH}/**/*.erb", File::FNM_DOTMATCH).each do |file|
         if (@config['mode']=='local'||@config['mode']=='sample') then
           if (file.include?('/terraform/')) then
             next
           end
+        end
+        if (@config['mode']=='base') then
+          if (file.include?('/config/')||file.include?('/compose/')) then
+            next
+          end
+        end
+        if (file.include?('/terraform_src/')) then
+          next
         end
         output_file = template_name(file)
         FileUtils.chmod 0o644, output_file if File.exist?(output_file)

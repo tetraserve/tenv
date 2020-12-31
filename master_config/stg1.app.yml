@@ -18,7 +18,6 @@ pma:
   basic_auth: __PMA_AUTH__
 gcp:
   tf_exec:
-    network: true
     snn: true
     remote: true
   snn_machine_type: n1-standard-1
