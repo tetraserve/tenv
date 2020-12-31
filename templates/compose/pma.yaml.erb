@@ -7,7 +7,7 @@ services:
     environment:
       PMA_HOST: db
       PMA_USER: root
-      PMA_PASSWORD: lcF0i3KVzxJxQV
+      PMA_PASSWORD: <%= @config['database']['password'] %>
       PHP_UPLOAD_MAX_FILESIZE: 1G
       PHP_MAX_INPUT_VARS: 1G
     labels:
