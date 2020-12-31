@@ -65,10 +65,10 @@ resource "google_compute_instance" "snn-<%= @config['mode'] %>" {
     'deploy', '"/tmp/upload/"', '"/home/deploy/tenv"'
   ) %>
   <%= RendererHelperGcp::provisioner_remote_exec(
-    'deploy', 'script = "../../../bin/install_tenv.sh"'
+    'deploy', 'script = "../../../bin/install_snn.sh"'
   ) %>
   <%= RendererHelperGcp::provisioner_remote_exec(
-    'deploy', 'script = "../../../bin/start_tenv.sh"'
+    'deploy', 'script = "../../../bin/start_snn.sh"'
   ) %>
  
 }

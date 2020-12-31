@@ -26,7 +26,7 @@ module Dockerconf
     def self.deploy_user_init
       'inline = ['+
         '"chmod 600 /home/deploy/.ssh/id_rsa", '+
-        '"mkdir -p /home/deploy/opendax", '+
+        '"mkdir -p /home/deploy/tenv", '+
         "\"echo 'set bell-style none' >> ~/.inputrc\", "+
         "\"echo 'set visualbell t_vb=' >> ~/.vimrc\" "+
       ']'
