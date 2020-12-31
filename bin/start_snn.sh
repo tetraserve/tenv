@@ -8,6 +8,9 @@ start_snn() {
   rvm use --default 2.7.2
   gem install bundler
   cd tenv
+  rm -f config/confpack.json.enc
+  rm -f deploy_secrets/*.txt
+  rm -f deploy_secrets/*.json
   bundle install --path vendor/bundle
   bundle exec rake render:config
 EOS
