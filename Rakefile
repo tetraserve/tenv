@@ -26,6 +26,14 @@ if (hash != '092f62296f5056e38ee95615df792506ab8a11a3db86a20cc841be0766b71255') 
   exit
 end
 
+# first time, copy from default stuff
+Dir.chdir('config') do
+  unless (File.exist?("render.json")) then
+    FileUtils.copy("render.dist.json", "render.json")
+    puts "Rakefile: Using render.dist.json"
+  end
+end
+
 ######## END First time after git clone ########
 
 conf = JSON.parse(File.read('./config/render.json'))

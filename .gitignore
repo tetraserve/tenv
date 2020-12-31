@@ -12,6 +12,7 @@ terraform.tfstate*
 deploy_secrets/*
 !deploy_secrets/.gitkeep
 master.key
+render.json
 /.bundle
 .env
 compose/*.yaml
