@@ -20,7 +20,7 @@ unless (File.exist?("config/master.key")) then
   File.write('config/master.key', sha256.hexdigest)
 end
 # Check master key
-hash =Digest::SHA256.hexdigest(File.read('config/master.key'))
+hash =Digest::SHA256.hexdigest(File.read('config/master.key').strip)
 if (hash != '092f62296f5056e38ee95615df792506ab8a11a3db86a20cc841be0766b71255') then
   puts "Incorrect config/master.key. Erase it and retry by 'bundle exec rake -T'"
   exit

@@ -2,9 +2,9 @@ require 'fog/google'
 
 namespace :confpack do
 
-  @deploy_secrets_basename  = "confpack_deploy_secrets"
-  @app_conf_basename        = "confpack_app_conf"
-  @password = File.read('config/master.key')
+  @deploy_secrets_basename  = "tenv_confpack_deploy_secrets"
+  @secrets_basename        = "tenv_confpack_secrets"
+  @password = File.read('config/master.key').strip
   @bucket = {}
 
   top_level = self
@@ -122,7 +122,7 @@ namespace :confpack do
 
   desc 'List GCP storage bucket files.'
   task :ls do
-    ls(@app_conf_basename)
+    ls(@secrets_basename)
   end
 
   desc 'List GCP storage bucket files.'
@@ -138,7 +138,7 @@ namespace :confpack do
       if (!check_filename(args.file)) then
         next
       end
-      tgzargs = "--exclude .gitkeep snnenv/deploy_secrets"
+      tgzargs = "--exclude .gitkeep tenv/deploy_secrets"
       save("#{@deploy_secrets_basename}", args.file, tgzargs)
     end
   end
@@ -155,7 +155,7 @@ namespace :confpack do
     end
   end
 
-  desc 'Save all app conf into GCP storage bucket [filename].'
+  desc 'Save all secrets into GCP storage bucket [filename].'
   task :save, [:file] do |_, args|
     if (args.file.nil?) then
       puts "Specify [filename]"
@@ -163,17 +163,12 @@ namespace :confpack do
       if (!check_filename(args.file)) then
         next
       end
-      tgzargs = "--exclude sample.app.yml "+
-      "snnenv/config/secrets/*.key* "+
-      "snnenv/config/app.yml.d/*.yml "+
-      "snnenv/config/deploy.yml "+
-      "snnenv/config/utils.yml "+
-      "snnenv/config/render.json"
-      save("#{@app_conf_basename}", args.file, tgzargs)
+      tgzargs = "--exclude .gitkeep tenv/config/secrets"
+      save("#{@secrets_basename}", args.file, tgzargs)
     end
   end
 
-  desc 'Load all app conf from GCP storage bucket [filename].'
+  desc 'Load all secrets from GCP storage bucket [filename].'
   task :load, [:file] do |_, args|
     if (args.file.nil?) then
       puts "Specify [filename]"
@@ -181,7 +176,7 @@ namespace :confpack do
       if (!check_filename(args.file)) then
         next
       end
-      load("#{@app_conf_basename}", args.file)
+      load("#{@secrets_basename}", args.file)
     end
   end
 

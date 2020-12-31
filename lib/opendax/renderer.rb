@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require 'openssl'
-require 'sshkey'
 require 'pathname'
 require 'yaml'
 require 'base64'
@@ -65,16 +64,6 @@ module Opendax
       out_path = path.relative_path_from(TEMPLATE_PATH).sub('.erb', '')
 
       File.join('.', out_path)
-    end
-
-    def generate_key(filename, public: false)
-      unless File.file?(filename)
-        key = SSHKey.generate(type: 'RSA', bits: 2048)
-        File.open(filename, 'w') { |file| file.puts(key.private_key) }
-        if public
-          File.open("#{filename}.pub", 'w') { |file| file.puts(key.ssh_public_key) }
-        end
-      end
     end
 
     def config
