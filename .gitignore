@@ -1,7 +1,4 @@
 config/acme*.json
-config/frontend/*.js
-config/gateway/mapping.yaml
-config/toolbox.yaml
 config/traefik*.toml
 config/*.env
 config/secrets/*
@@ -16,14 +13,9 @@ deploy_secrets/*
 master.key
 /.bundle
 .env
-config/app.yml
-config/utils.yml
-config/deploy.yml
 compose/*.yaml
-config/gateway/envoy.yaml
-/config/app.yml.d/*.yml
-!/config/app.yml.d/sample.app.yml
-.*.tfstate.lock.info
+*.tfstate.lock.info
+*.lock.hcl
 *.tar.gz
 *.tar.gz.enc
 *.tgz

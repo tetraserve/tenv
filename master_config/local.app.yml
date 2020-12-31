@@ -1,0 +1,18 @@
+mode: "local"
+name: "tenv"
+domain: "tetraserve.local"
+snn:
+  subdomain: "snn"
+  aliasdomain: "supernn.net"
+render_protect: false
+ssl:
+  enabled: false 
+  email: "support@example.com"
+database:
+  host: db
+  port: 3306
+  user: root
+  password: __DB_PASSORD__
+  docker_volumes_path: "__HOME__/docker_volumes"
+pma:
+  basic_auth: __PMA_AUTH__

@@ -4,9 +4,8 @@ require 'erb'
 require "digest"
 require 'json'
 
-#CONFIG_PATH = 'config/app.yml'.freeze
-UTILS_PATH = 'config/utils.yml'.freeze
-DEPLOY_PATH = 'config/deploy.yml'.freeze
+UTILS_PATH = 'master_config/utils.yml'.freeze
+DEPLOY_PATH = 'master_config/deploy.yml'.freeze
 
 ######## START First time after git clone ########
 
@@ -27,32 +26,17 @@ if (hash != '092f62296f5056e38ee95615df792506ab8a11a3db86a20cc841be0766b71255') 
   exit
 end
 
-#### Prepare sample yml/json files.
-
-# first time, copy from sample stuff
-Dir.chdir('config') do
-  unless (File.exist?("render.json")) then
-    FileUtils.copy("sample.render.json", "render.json")
-    puts "Rakefile: Using sample.render.json"
-  end
-  unless (File.exist?("deploy.yml")) then
-    FileUtils.copy("sample.deploy.yml", "deploy.yml")
-    puts "Rakefile: Using sample.deploy.yml"
-  end
-  unless (File.exist?("utils.yml")) then
-    FileUtils.copy("sample.utils.yml", "utils.yml")
-    puts "Rakefile: Using sample.utils.yml"
-  end
-end
-
 ######## END First time after git clone ########
 
 conf = JSON.parse(File.read('./config/render.json'))
-CONFIG_PATH = "./config/app.yml.d/#{conf['app']}.app.yml"
+CONFIG_PATH = "./master_config/#{conf['app']}.app.yml"
 @config = YAML.load_file(CONFIG_PATH)
-
 # Special macro
 @config['database']['docker_volumes_path'].gsub!(/__HOME__/, ENV['HOME'])
+@config['database']['password'].gsub!(
+  /__DB_PASSORD__/, File.read("./config/secrets/db_password.txt").strip)
+@config['pma']['basic_auth'].gsub!(
+  /__PMA_AUTH__/, File.read("./config/secrets/pma_auth.txt").strip)
 
 @utils = YAML.load_file(UTILS_PATH)
 @deploy = YAML.load_file(DEPLOY_PATH)

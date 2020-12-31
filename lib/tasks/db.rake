@@ -1,18 +1,22 @@
 namespace :db do
   
+  def db_pass
+    File.read("./config/secrets/db_password.txt").strip
+  end
+
   def mysql_cli
-    return "MYSQL_PWD=lcF0i3KVzxJxQV mysql -u root -h 127.0.0.1 -P 3306"
+    return "MYSQL_PWD=#{db_pass} mysql -u root -h 127.0.0.1 -P 3306"
   end
 
   def mysql_dump
     puts "Notice) As mysql 5.7 mysqldump."
-    return "MYSQL_PWD=lcF0i3KVzxJxQV mysqldump -u root -h 127.0.0.1 -P 3306"
+    return "MYSQL_PWD=#{db_pass} mysqldump -u root -h 127.0.0.1 -P 3306"
   end
 
   # mysql8.0 client cannot handle 5.7 database as default
   def mysql_dump8
     puts "Notice) As mysql 8.0 mysqldump, using --skip-column-statistics.."
-    return "MYSQL_PWD=lcF0i3KVzxJxQV mysqldump -u root -h 127.0.0.1 -P 3306 --skip-column-statistics"
+    return "MYSQL_PWD=#{db_pass} mysqldump -u root -h 127.0.0.1 -P 3306 --skip-column-statistics"
   end
 
   desc 'Create snn database'

@@ -1,6 +1,6 @@
 #!/bin/bash -x
 
-start_tenv() {
+start_snn() {
   sudo -u deploy bash <<EOS
   cd /home/deploy
   source /home/deploy/.rvm/scripts/rvm
@@ -13,4 +13,4 @@ start_tenv() {
 EOS
 }
 
-start_tenv
+start_snn

@@ -16,7 +16,6 @@ namespace :render do
     #end
     #sh "sudo chown #{ENV['USER']} config/bitcoin.conf"
     renderer = Opendax::Renderer.new
-    renderer.render_keys
     renderer.render
     Opendax::Util::show_command_status
   end

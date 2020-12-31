@@ -15,22 +15,17 @@ module Opendax
   class Renderer
     TEMPLATE_PATH = Pathname.new('./templates')
 
-    BARONG_KEY = 'config/secrets/barong.key'
-    APPLOGIC_KEY = 'config/secrets/applogic.key'
-    SSH_KEY = 'config/secrets/app.key'
 
     def render
       @config ||= config
       @utils  ||= utils
       @deploy  ||= deploy
-      @barong_key ||= OpenSSL::PKey::RSA.new(File.read(BARONG_KEY), '')
-      @applogic_key ||= OpenSSL::PKey::RSA.new(File.read(APPLOGIC_KEY), '')
-      @barong_private_key ||= Base64.urlsafe_encode64(@barong_key.to_pem)
-      @barong_public_key  ||= Base64.urlsafe_encode64(@barong_key.public_key.to_pem)
-      @applogic_private_key ||= Base64.urlsafe_encode64(@applogic_key.to_pem)
-      @applogic_public_key ||= Base64.urlsafe_encode64(@applogic_key.public_key.to_pem)
 
       @config['database']['docker_volumes_path'].gsub!(/__HOME__/, ENV['HOME'])
+      @config['database']['password'].gsub!(
+        /__DB_PASSORD__/, File.read("./config/secrets/db_password.txt").strip)
+      @config['pma']['basic_auth'].gsub!(
+        /__PMA_AUTH__/, File.read("./config/secrets/pma_auth.txt").strip)
 
       Dir.glob("#{TEMPLATE_PATH}/**/*.erb", File::FNM_DOTMATCH).each do |file|
         if (@config['mode']=='local'||@config['mode']=='sample') then
@@ -62,12 +57,6 @@ module Opendax
       File.join('.', out_path)
     end
 
-    def render_keys
-      generate_key(BARONG_KEY)
-      generate_key(APPLOGIC_KEY)
-      generate_key(SSH_KEY, public: true)
-    end
-
     def generate_key(filename, public: false)
       unless File.file?(filename)
         key = SSHKey.generate(type: 'RSA', bits: 2048)
@@ -80,15 +69,15 @@ module Opendax
 
     def config
       conf = JSON.parse(File.read('./config/render.json'))
-      YAML.load_file("./config/app.yml.d/#{conf['app']}.app.yml")
+      YAML.load_file("./master_config/#{conf['app']}.app.yml")
     end
 
     def utils
-      YAML.load_file('./config/utils.yml')
+      YAML.load_file('./master_config/utils.yml')
     end
 
     def deploy
-      YAML.load_file('./config/deploy.yml')
+      YAML.load_file('./master_config/deploy.yml')
     end
   end
 end
