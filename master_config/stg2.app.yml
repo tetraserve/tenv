@@ -1,0 +1,24 @@
+mode: "stg2"
+name: "tenv"
+domain: "tetraserve.biz"
+snn:
+  subdomain: "snn"
+  aliasdomain: "supernn.net"
+render_protect: false
+ssl:
+  enabled: false
+  email: "support@example.com"
+database:
+  host: db
+  port: 3306
+  user: root
+  password: __DB_PASSORD__
+  docker_volumes_path: "__HOME__/docker_volumes"
+pma:
+  basic_auth: __PMA_AUTH__
+gcp:
+  tf_exec:
+    snn: true
+    remote: true
+  snn_machine_type: n1-standard-1
+  snn_disk_size: 20
