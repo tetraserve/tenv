@@ -7,7 +7,7 @@ gcs:
   credentials: "../../../deploy_secrets/gcp.json"
 gcp:
   credentials: "../../../deploy_secrets/gcp.json"
-  project: "tenv"
+  project: "tenv-301206"
   region: "asia-northeast1"
   zone: "asia-northeast1-a"
   image: "ubuntu-os-cloud/ubuntu-minimal-2004-lts"
