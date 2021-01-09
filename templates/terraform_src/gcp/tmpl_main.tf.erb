@@ -6,9 +6,15 @@ terraform {
     bucket  = "<%= @deploy['gcs']['terraform_bucket'] %>"
     prefix = "gcp/<%= @config['mode'] %>"
   }
+  required_providers {
+    google = {
+      source = "hashicorp/google"
+      version = "~> 3.18"
+    }
+  }
 }
+
 provider "google" {
-  version = "~> 3.18"
   credentials = file(var.credentials)
   project     = var.project
   region      = var.region
