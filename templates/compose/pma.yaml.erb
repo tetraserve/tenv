@@ -12,6 +12,6 @@ services:
       PHP_MAX_INPUT_VARS: 1G
     labels:
       traefik.enable: true
-      traefik.frontend.rule: "Host:pma.<%= @config['domain'] %>"
+      traefik.frontend.rule: "Host:<%= @config['pma']['subdomain'] %>.<%= @config['domain'] %>"
       traefik.frontend.auth.basic: '<%= @config['pma']['basic_auth'] %>'
       traefik.port: 80

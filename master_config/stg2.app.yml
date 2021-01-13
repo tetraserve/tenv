@@ -2,7 +2,7 @@ mode: "stg2"
 name: "tenv"
 domain: "tetraserve.biz"
 snn:
-  subdomain: "snn"
+  subdomain: "snn2
   aliasdomain: "supernn.net"
 render_protect: false
 ssl:
@@ -15,6 +15,7 @@ database:
   password: __DB_PASSORD__
   docker_volumes_path: "__HOME__/docker_volumes"
 pma:
+  subdomain: "pma2"
   basic_auth: __PMA_AUTH__
 gcp:
   tf_exec:

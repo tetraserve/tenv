@@ -15,4 +15,5 @@ database:
   password: __DB_PASSORD__
   docker_volumes_path: "__HOME__/docker_volumes"
 pma:
+  subdomain: "pma"
   basic_auth: __PMA_AUTH__
