@@ -4,6 +4,9 @@ domain: "tetraserve.local"
 snn:
   subdomain: "snn"
   aliasdomain: "supernn.net"
+tetra2:
+  subdomain: "www"
+  aliasdomain: none
 render_protect: false
 ssl:
   enabled: false 

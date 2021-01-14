@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  tetra2:
+    restart: always
+    image: "yuknak/tetra2:latest"
+    env_file:
+      - ../config/tetra2.env
+    expose:
+      - "3002"
+    labels:
+      traefik.enable: true
+      traefik.frontend.rule: "Host:<%= @config['tetra2']['aliasdomain'] %>,<%= @config['tetra2']['subdomain'] %>.<%= @config['domain'] %>"
+      traefik.port: 3002

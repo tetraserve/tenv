@@ -2,8 +2,11 @@ mode: "stg2"
 name: "tenv"
 domain: "tetraserve.biz"
 snn:
-  subdomain: "snn2
+  subdomain: "snn2"
   aliasdomain: "supernn.net"
+tetra2:
+  subdomain: "www2"
+  aliasdomain: none
 render_protect: false
 ssl:
   enabled: false

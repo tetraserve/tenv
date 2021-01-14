@@ -76,6 +76,23 @@ namespace :service do
     @switch.call(args, method(:start), method(:stop))
   end
 
+  desc 'Run tetra2'
+  task :tetra2, [:command] do |task, args|
+    args.with_defaults(:command => 'start')
+
+    def start
+      puts '----- Starting tetra2 -----'
+      sh 'docker-compose up -d tetra2'
+    end
+
+    def stop
+      puts '----- Stopping tetra2 -----'
+      sh 'docker-compose rm -fs tetra2'
+    end
+
+    @switch.call(args, method(:start), method(:stop))
+  end
+
   desc '[Optional] Run phpmyadmin'
   task :pma, [:command] do |task, args|
     args.with_defaults(:command => 'start')
@@ -101,13 +118,15 @@ namespace :service do
       Rake::Task["service:backend"].invoke('start')
       sleep(5)
       Rake::Task["service:proxy"].invoke('start')
-      Rake::Task["service:pma"].invoke('start')
+      #Rake::Task["service:pma"].invoke('start')
       Rake::Task["service:snn"].invoke('start')
+      Rake::Task["service:tetra2"].invoke('start')
     end
 
     def stop
+      Rake::Task["service:tetra2"].invoke('stop')
       Rake::Task["service:snn"].invoke('stop')
-      Rake::Task["service:pma"].invoke('stop')
+      #Rake::Task["service:pma"].invoke('stop')
       Rake::Task["service:proxy"].invoke('stop')
       Rake::Task["service:backend"].invoke('stop')
     end

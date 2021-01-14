@@ -4,6 +4,9 @@ domain: "tetraserve.biz"
 snn:
   subdomain: "snn1"
   aliasdomain: "supernn.net"
+tetra2:
+  subdomain: "www1"
+  aliasdomain: none
 render_protect: false
 ssl:
   enabled: false

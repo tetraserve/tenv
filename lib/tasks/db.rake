@@ -19,6 +19,9 @@ namespace :db do
     return "MYSQL_PWD=#{db_pass} mysqldump -u root -h 127.0.0.1 -P 3306 --skip-column-statistics"
   end
 
+  #############################################################################
+  # snn
+
   desc 'Create snn database'
   task :snn_create do
     sh 'docker-compose run --rm snn bundle exec rake db:create'
@@ -34,6 +37,25 @@ namespace :db do
     sh 'docker-compose run --rm snn bundle exec rake db:drop'
   end
 
+  #############################################################################
+  # tetra2
+  
+  desc 'Create tetra2 database'
+  task :tetra2_create do
+    sh 'docker-compose run --rm tetra2 bundle exec rake db:create'
+  end
+
+  desc 'Migrate tetra2 database'
+  task :tetra2_migrate do
+    sh 'docker-compose run --rm tetra2 bundle exec rake db:migrate'
+  end
+
+  desc 'Drop tetra2 database'
+  task :tetra2_drop do
+    sh 'docker-compose run --rm tetra2 bundle exec rake db:drop'
+  end
+
+  #############################################################################
   desc 'Database Console'
   task :console do
     sh "#{mysql_cli}"
