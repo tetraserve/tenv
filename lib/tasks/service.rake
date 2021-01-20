@@ -45,8 +45,12 @@ namespace :service do
 
     def start
       puts '----- Starting backend -----'
-      sh "mkdir -p #{@config['database']['docker_volumes_path']}/db_data"
-      #sh "sudo chmod a+w #{@config['database']['docker_volumes_path']}/db_data"
+      if (ENV.key?('WSLENV')) then
+        sh "sudo mkdir -p /mnt/C/docker_volumes/db_data"
+      else
+        sh "mkdir -p #{@config['database']['docker_volumes_path']}/db_data"
+        #sh "sudo chmod a+w #{@config['database']['docker_volumes_path']}/db_data"
+    end
       sh 'docker-compose up -d db'
     end
 

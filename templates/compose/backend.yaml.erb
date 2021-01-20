@@ -3,19 +3,31 @@ version: '3.8'
 services:
   db:
     restart: always
+    # Using mysql:5.7.16
+    # for WSL2 https://chiritsumo-mine.com/laradock-wsl2-initialize-error/
+<% if (ENV.key?('WSLENV')) then %>
+    image: mysql:5.7.16
+<% else %>
     image: mysql:5.7.32
+<% end %>
     command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
     volumes:
+<% if (ENV.key?('WSLENV')) then %>
+      - /mnt/c/docker_volumes/db_data:/var/lib/mysql
+<% else %>
       - db_data:/var/lib/mysql
       - ../config/mysql:/etc/mysql/conf.d
+<% end %>
     ports:
       - "3306:3306"
     environment:
       MYSQL_ROOT_PASSWORD: <%= @config['database']['password'] %>
 
+<% unless (ENV.key?('WSLENV')) then %>
 volumes:
   db_data:
     driver_opts:
       type: none
       device: "<%= @config['database']['docker_volumes_path'] %>/db_data"
       o: bind
+<% end %>
