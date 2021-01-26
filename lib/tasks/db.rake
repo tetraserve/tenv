@@ -56,6 +56,24 @@ namespace :db do
   end
 
   #############################################################################
+  # tetra
+  
+  desc 'Create tetra database'
+  task :tetra_create do
+    sh 'docker-compose run --rm tetra bundle exec rake db:create'
+  end
+
+  desc 'Migrate tetra database'
+  task :tetra_migrate do
+    sh 'docker-compose run --rm tetra bundle exec rake db:migrate'
+  end
+
+  desc 'Drop tetra database'
+  task :tetra_drop do
+    sh 'docker-compose run --rm tetra bundle exec rake db:drop'
+  end
+
+  #############################################################################
   desc 'Database Console'
   task :console do
     sh "#{mysql_cli}"

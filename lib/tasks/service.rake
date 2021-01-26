@@ -97,6 +97,23 @@ namespace :service do
     @switch.call(args, method(:start), method(:stop))
   end
 
+  desc 'Run tetra'
+  task :tetra, [:command] do |task, args|
+    args.with_defaults(:command => 'start')
+
+    def start
+      puts '----- Starting tetra -----'
+      sh 'docker-compose up -d tetra'
+    end
+
+    def stop
+      puts '----- Stopping tetra -----'
+      sh 'docker-compose rm -fs tetra'
+    end
+
+    @switch.call(args, method(:start), method(:stop))
+  end
+
   desc '[Optional] Run phpmyadmin'
   task :pma, [:command] do |task, args|
     args.with_defaults(:command => 'start')
@@ -124,11 +141,11 @@ namespace :service do
       Rake::Task["service:proxy"].invoke('start')
       #Rake::Task["service:pma"].invoke('start')
       Rake::Task["service:snn"].invoke('start')
-      Rake::Task["service:tetra2"].invoke('start')
+      Rake::Task["service:tetra"].invoke('start')
     end
 
     def stop
-      Rake::Task["service:tetra2"].invoke('stop')
+      Rake::Task["service:tetra"].invoke('stop')
       Rake::Task["service:snn"].invoke('stop')
       #Rake::Task["service:pma"].invoke('stop')
       Rake::Task["service:proxy"].invoke('stop')
