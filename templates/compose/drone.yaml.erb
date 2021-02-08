@@ -2,29 +2,26 @@ version: '3.8'
 
 services:
   drone-server:
-    image: drone/drone:0.7.3
+    image: drone/drone:1.10.1
     ports:
-      - 4000:8000
+      - 4080:80
     volumes:
-      #- ./drone:/var/lib/drone/
       - drone_data:/var/lib/drone/
+      - /var/run/docker.sock:/var/run/docker.sock    
     restart: always
     environment:
-      - DRONE_OPEN=true
-      - DRONE_HOST=<%= @config['drone']['host'] %> 
-      - DRONE_GITHUB=true       
-      - DRONE_GITHUB_URL=<%= @config['drone']['github_url'] %>
-      - DRONE_GITHUB_CLIENT=<%= @config['drone']['github_client'] %>
-      - DRONE_GITHUB_SECRET=<%= @config['drone']['github_secret'] %>
-      - DRONE_SECRET=<%= @config['drone']['secret'] %>
-      - DRONE_GITHUB_PRIVATE_MODE=true
+      - DRONE_GITHUB_CLIENT_ID=<%= @config['drone']['github_client'] %>
+      - DRONE_GITHUB_CLIENT_SECRET=<%= @config['drone']['github_secret'] %>
+      - DRONE_RPC_SECRET=<%= @config['drone']['secret'] %>
+      - DRONE_SERVER_PROTO=http
+      - DRONE_SERVER_HOST=<%= @config['drone']['host'] %>
     labels:
       traefik.enable: true
       traefik.frontend.rule: "Host:<%= @config['drone']['subdomain'] %>.<%= @config['domain'] %>"
       traefik.port: 8000
 
   drone-agent:
-    image: drone/drone:0.7.3
+    image: drone/drone-runner-docker:1.6.3
     command: agent
     restart: always
     depends_on:
@@ -32,8 +29,9 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     environment:
-      - DRONE_SERVER=ws://drone-server:8000/ws/broker
-      - DRONE_SECRET=<%= @config['drone']['secret'] %>
+      - DRONE_RPC_HOST=drone-server:80
+      - DRONE_RPC_PROTO=http
+      - DRONE_RPC_SECRET=<%= @config['drone']['secret'] %>
 
 volumes:
   drone_data:

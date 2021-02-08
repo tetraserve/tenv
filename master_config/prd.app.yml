@@ -25,7 +25,7 @@ pma:
   basic_auth: __PMA_AUTH__
 drone:
   subdomain: "drone"
-  host: https://drone.tetraserve.biz
+  host: drone.tetraserve.biz
   github_url: https://github.com
   github_client: 2efc5a4fc81a008332a5
   github_secret: __DRONE_AUTH__
