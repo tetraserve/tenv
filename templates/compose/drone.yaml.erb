@@ -18,7 +18,7 @@ services:
     labels:
       traefik.enable: true
       traefik.frontend.rule: "Host:<%= @config['drone']['subdomain'] %>.<%= @config['domain'] %>"
-      traefik.port: 8000
+      traefik.port: 80
 
   drone-agent:
     image: drone/drone-runner-docker:1.6.3
