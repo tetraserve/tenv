@@ -30,4 +30,5 @@ drone:
   github_client: xxx
   github_secret: __DRONE_AUTH__
   secret: honi
+  admin_user: yuknak
   docker_volumes_path: "__HOME__/docker_volumes"

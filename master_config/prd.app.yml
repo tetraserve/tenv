@@ -30,6 +30,7 @@ drone:
   github_client: fac64a49eeda14bab111
   github_secret: __DRONE_AUTH__
   secret: honi
+  admin_user: yuknak
   docker_volumes_path: "__HOME__/docker_volumes"
 gcp:
   tf_exec:
