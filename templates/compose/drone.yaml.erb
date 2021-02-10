@@ -6,7 +6,7 @@ services:
     ports:
       - 4080:80
     volumes:
-      - drone_data:/var/lib/drone/
+      - drone_data:/data
       - /var/run/docker.sock:/var/run/docker.sock    
     restart: always
     environment:
