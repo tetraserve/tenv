@@ -26,3 +26,12 @@ database:
 pma:
   subdomain: "pma"
   basic_auth: __PMA_AUTH__
+drone:
+  subdomain: "drone"
+  host: http://xxx.ngrok.io
+  github_url: https://github.com
+  github_client: xxx
+  github_secret: __DRONE_AUTH__
+  secret: honi
+  admin_user: yuknak
+  docker_volumes_path: "__HOME__/docker_volumes"

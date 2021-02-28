@@ -148,6 +148,25 @@ namespace :service do
     @switch.call(args, method(:start), method(:stop))
   end
 
+  desc '[Optional] Run drone'
+  task :drone, [:command] do |task, args|
+    args.with_defaults(:command => 'start')
+
+    def start
+      puts '----- Starting the drone -----'
+      sh "mkdir -p #{@config['drone']['docker_volumes_path']}/drone_data"
+      #sh "sudo chmod a+w #{@config['drone']['docker_volumes_path']}/drone_data"
+      sh 'docker-compose up -d drone-server drone-agent'
+    end
+
+    def stop
+      puts '----- Stopping the drone -----'
+      sh 'docker-compose rm -fs drone-server drone-agent'
+    end
+
+    @switch.call(args, method(:start), method(:stop))
+  end
+
   desc 'Run the micro app with dependencies (does not run Optional)'
   task :all, [:command] => 'render:config' do |task, args|
     args.with_defaults(:command => 'start')

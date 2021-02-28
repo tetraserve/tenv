@@ -46,11 +46,14 @@ if (conf['app'] != "base") then
   # Special macro
   begin
   @config['database']['docker_volumes_path'].gsub!(/__HOME__/, ENV['HOME'])
+  @config['drone']['docker_volumes_path'].gsub!(/__HOME__/, ENV['HOME'])
   @config['database']['password'].gsub!(
     /__DB_PASSORD__/, File.read("./config/secrets/db_password.txt").strip)
   @config['pma']['basic_auth'].gsub!(
     /__PMA_AUTH__/, File.read("./config/secrets/pma_auth.txt").strip)
-  rescue
+  @config['drone']['github_secret'].gsub!(
+    /__DRONE_AUTH__/, File.read("./config/secrets/drone_github_secret.txt").strip)
+    rescue
     #puts "WARN) May be secrets files missing."
   end
 end

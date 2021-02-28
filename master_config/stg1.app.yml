@@ -26,6 +26,15 @@ database:
 pma:
   subdomain: "pma1"
   basic_auth: __PMA_AUTH__
+drone:
+  subdomain: "drone"
+  host: drone.tetraserve.biz
+  github_url: https://github.com
+  github_client: fac64a49eeda14bab111
+  github_secret: __DRONE_AUTH__
+  secret: honi
+  admin_user: yuknak
+  docker_volumes_path: "__HOME__/docker_volumes"
 gcp:
   tf_exec:
     snn: true
