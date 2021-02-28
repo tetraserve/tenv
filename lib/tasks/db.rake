@@ -38,6 +38,24 @@ namespace :db do
   end
 
   #############################################################################
+  # vnn
+
+  desc 'Create vnn database'
+  task :vnn_create do
+    sh 'docker-compose run --rm vnn bundle exec rake db:create'
+  end
+
+  desc 'Migrate vnn database'
+  task :vnn_migrate do
+    sh 'docker-compose run --rm vnn bundle exec rake db:migrate'
+  end
+
+  desc 'Drop vnn database'
+  task :vnn_drop do
+    sh 'docker-compose run --rm vnn bundle exec rake db:drop'
+  end
+
+  #############################################################################
   # tetra2
   
   desc 'Create tetra2 database'

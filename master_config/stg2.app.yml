@@ -4,6 +4,9 @@ domain: "tetraserve.biz"
 snn:
   subdomain: "snn2"
   aliasdomain: "supernn.net"
+vnn:
+  subdomain: "vnn2"
+  aliasdomain: "vietnn.com"
 tetra:
   subdomain: "stg2-www"
   aliasdomain: none

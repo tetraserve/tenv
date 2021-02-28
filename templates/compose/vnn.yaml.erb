@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  vnn:
+    restart: always
+    image: "yuknak/vnn:1.0.1"
+    env_file:
+      - ../config/vnn.env
+    expose:
+      - "3004"
+    labels:
+      traefik.enable: true
+      traefik.frontend.rule: "Host:<%= @config['vnn']['aliasdomain'] %>,<%= @config['vnn']['subdomain'] %>.<%= @config['domain'] %>"
+      traefik.port: 3004

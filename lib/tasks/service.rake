@@ -80,6 +80,23 @@ namespace :service do
     @switch.call(args, method(:start), method(:stop))
   end
 
+  desc 'Run vnn'
+  task :vnn, [:command] do |task, args|
+    args.with_defaults(:command => 'start')
+
+    def start
+      puts '----- Starting vnn -----'
+      sh 'docker-compose up -d vnn'
+    end
+
+    def stop
+      puts '----- Stopping vnn -----'
+      sh 'docker-compose rm -fs vnn'
+    end
+
+    @switch.call(args, method(:start), method(:stop))
+  end
+
   desc 'Run tetra2'
   task :tetra2, [:command] do |task, args|
     args.with_defaults(:command => 'start')
@@ -141,11 +158,13 @@ namespace :service do
       Rake::Task["service:proxy"].invoke('start')
       #Rake::Task["service:pma"].invoke('start')
       Rake::Task["service:snn"].invoke('start')
+      Rake::Task["service:vnn"].invoke('start')
       Rake::Task["service:tetra"].invoke('start')
     end
 
     def stop
       Rake::Task["service:tetra"].invoke('stop')
+      Rake::Task["service:vnn"].invoke('stop')
       Rake::Task["service:snn"].invoke('stop')
       #Rake::Task["service:pma"].invoke('stop')
       Rake::Task["service:proxy"].invoke('stop')
